@@ -69,18 +69,20 @@ pnpm format:ci          # Prettier check
 | `orientation` | `'white' \| 'black'`           | `'white'`         | Board orientation                                      |
 | `pieces`      | `PieceSet`                     | `DEFAULT_PIECES`  | Custom piece component set                             |
 | `position`    | `string \| Map<Square, Piece>` | starting position | FEN string or position map                             |
-| `theme`       | `BoardTheme`                   | —                 | Override default square/highlight colours              |
 
-### `BoardTheme`
+### CSS Variables
 
-| Key           | Default                 | Description             |
-| ------------- | ----------------------- | ----------------------- |
-| `border`      | `'transparent'`         | Board border colour     |
-| `coordinate`  | `'#666'`                | Coordinate label colour |
-| `darkSquare`  | `'#779952'`             | Dark square colour      |
-| `highlight`   | `'rgba(255,255,0,0.4)'` | Highlight overlay       |
-| `legalDot`    | `'rgba(0,0,0,0.2)'`     | Legal move dot colour   |
-| `lightSquare` | `'#edeed1'`             | Light square colour     |
+All visual styling is controlled via CSS custom properties. Set them on a parent
+element to override defaults.
+
+| Variable                      | Default               | Description                      |
+| ----------------------------- | --------------------- | -------------------------------- |
+| `--board-dark-square`         | `#779952`             | Dark square colour               |
+| `--board-light-square`        | `#edeed1`             | Light square colour              |
+| `--board-highlight`           | `rgba(255,255,0,0.4)` | Highlight overlay                |
+| `--board-legal-dot`           | `rgba(0,0,0,0.2)`     | Legal move dot colour            |
+| `--board-coordinate-on-light` | `#779952`             | Coordinate text on light squares |
+| `--board-coordinate-on-dark`  | `#edeed1`             | Coordinate text on dark squares  |
 
 ### `MoveEvent`
 
