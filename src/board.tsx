@@ -8,20 +8,10 @@ import { SQUARES, squareColor, squareCoords } from './utilities.js';
 
 import type {
   BoardProps as BoardProperties,
-  BoardTheme,
   PieceComponent as PieceComponentType,
   PieceKey,
 } from './types.js';
 import type React from 'react';
-
-const DEFAULT_THEME: Required<BoardTheme> = {
-  border: 'transparent',
-  coordinate: '#666',
-  darkSquare: '#779952',
-  highlight: 'rgba(255, 255, 0, 0.4)',
-  legalDot: 'rgba(0, 0, 0, 0.2)',
-  lightSquare: '#edeed1',
-};
 
 const STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
@@ -35,7 +25,6 @@ function Board({
   orientation = 'white',
   pieces = DEFAULT_PIECES,
   position,
-  theme,
 }: BoardProperties): React.JSX.Element {
   const containerReference = useRef<HTMLDivElement>(null);
   const [squareSize, setSquareSize] = useState(60);
@@ -78,9 +67,6 @@ function Board({
     animate,
   );
 
-  // Merge theme with defaults
-  const resolvedTheme: Required<BoardTheme> = { ...DEFAULT_THEME, ...theme };
-
   const { dragState, handlers, selectedSquare } = useDrag({
     boardRef: containerReference,
     interactive,
@@ -122,16 +108,10 @@ function Board({
   const highlightSet = new Set(highlightSquares);
 
   const rootStyle: React.CSSProperties = {
-    '--board-border': resolvedTheme.border,
-    '--board-coordinate': resolvedTheme.coordinate,
-    '--board-dark-square': resolvedTheme.darkSquare,
-    '--board-highlight': resolvedTheme.highlight,
-    '--board-legal-dot': resolvedTheme.legalDot,
-    '--board-light-square': resolvedTheme.lightSquare,
-    'aspectRatio': '1 / 1',
-    'position': 'relative',
-    'width': '100%',
-  } as React.CSSProperties;
+    aspectRatio: '1 / 1',
+    position: 'relative',
+    width: '100%',
+  };
 
   const gridStyle: React.CSSProperties = {
     display: 'grid',
@@ -199,8 +179,8 @@ function Board({
             const squareStyle: React.CSSProperties = {
               background:
                 color === 'dark'
-                  ? 'var(--board-dark-square)'
-                  : 'var(--board-light-square)',
+                  ? 'var(--board-dark-square, #779952)'
+                  : 'var(--board-light-square, #edeed1)',
               gridColumn: String(coords.col),
               gridRow: String(coords.row),
               overflow: 'hidden',
@@ -208,7 +188,10 @@ function Board({
             };
 
             const rankCoordStyle: React.CSSProperties = {
-              color: 'var(--board-coordinate)',
+              color:
+                color === 'light'
+                  ? 'var(--board-coordinate-on-light, #779952)'
+                  : 'var(--board-coordinate-on-dark, #edeed1)',
               fontSize: `${squareSize * 0.25}px`,
               fontWeight: 'bold',
               left: '2px',
@@ -221,7 +204,10 @@ function Board({
 
             const fileCoordStyle: React.CSSProperties = {
               bottom: '2px',
-              color: 'var(--board-coordinate)',
+              color:
+                color === 'light'
+                  ? 'var(--board-coordinate-on-light, #779952)'
+                  : 'var(--board-coordinate-on-dark, #edeed1)',
               fontSize: `${squareSize * 0.25}px`,
               fontWeight: 'bold',
               lineHeight: 1,
@@ -232,7 +218,7 @@ function Board({
             };
 
             const highlightStyle: React.CSSProperties = {
-              background: 'var(--board-highlight)',
+              background: 'var(--board-highlight, rgba(255, 255, 0, 0.4))',
               height: '100%',
               inset: 0,
               position: 'absolute',
@@ -240,7 +226,7 @@ function Board({
             };
 
             const legalDotStyle: React.CSSProperties = {
-              background: 'var(--board-legal-dot)',
+              background: 'var(--board-legal-dot, rgba(0, 0, 0, 0.2))',
               borderRadius: '50%',
               height: '30%',
               left: '50%',
@@ -321,8 +307,8 @@ function Board({
             const squareStyle: React.CSSProperties = {
               background:
                 color === 'dark'
-                  ? 'var(--board-dark-square)'
-                  : 'var(--board-light-square)',
+                  ? 'var(--board-dark-square, #779952)'
+                  : 'var(--board-light-square, #edeed1)',
               gridColumn: String(coords.col),
               gridRow: String(coords.row),
               overflow: 'hidden',
@@ -330,7 +316,10 @@ function Board({
             };
 
             const rankCoordStyle: React.CSSProperties = {
-              color: 'var(--board-coordinate)',
+              color:
+                color === 'light'
+                  ? 'var(--board-coordinate-on-light, #779952)'
+                  : 'var(--board-coordinate-on-dark, #edeed1)',
               fontSize: `${squareSize * 0.25}px`,
               fontWeight: 'bold',
               left: '2px',
@@ -343,7 +332,10 @@ function Board({
 
             const fileCoordStyle: React.CSSProperties = {
               bottom: '2px',
-              color: 'var(--board-coordinate)',
+              color:
+                color === 'light'
+                  ? 'var(--board-coordinate-on-light, #779952)'
+                  : 'var(--board-coordinate-on-dark, #edeed1)',
               fontSize: `${squareSize * 0.25}px`,
               fontWeight: 'bold',
               lineHeight: 1,
@@ -354,7 +346,7 @@ function Board({
             };
 
             const highlightStyle: React.CSSProperties = {
-              background: 'var(--board-highlight)',
+              background: 'var(--board-highlight, rgba(255, 255, 0, 0.4))',
               height: '100%',
               inset: 0,
               position: 'absolute',
@@ -362,7 +354,7 @@ function Board({
             };
 
             const legalDotStyle: React.CSSProperties = {
-              background: 'var(--board-legal-dot)',
+              background: 'var(--board-legal-dot, rgba(0, 0, 0, 0.2))',
               borderRadius: '50%',
               height: '30%',
               left: '50%',
