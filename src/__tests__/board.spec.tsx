@@ -178,6 +178,20 @@ describe('Board', () => {
     const root = container.firstElementChild as HTMLElement;
     expect(root.style.aspectRatio).toBe('1 / 1');
   });
+
+  it('renders children inside the board grid', () => {
+    const { container } = render(
+      <Board>
+        <div data-testid="custom-overlay" style={{ gridColumn: 5, gridRow: 1 }}>
+          overlay
+        </div>
+      </Board>,
+    );
+    const grid = container.querySelector('[data-board-grid]');
+    const overlay = grid?.querySelector('[data-testid="custom-overlay"]');
+    expect(overlay).toBeTruthy();
+    expect(overlay?.textContent).toBe('overlay');
+  });
 });
 
 describe('interaction', () => {
