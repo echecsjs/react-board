@@ -1,5 +1,10 @@
-import { Board } from '../index.js';
+import { useState } from 'react';
 
+import { Board } from '../index.js';
+import { PromotionDialog } from '../promotion-dialog.js';
+import { squareCoords } from '../utilities.js';
+
+import type { PromotionPiece } from '../promotion-dialog.js';
 import type { BoardProps } from '../types.js';
 import type { Square } from '@echecs/position';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -135,4 +140,39 @@ export const Interactive: Story = {
     orientation: 'white',
     position: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
   },
+};
+
+// -- Promotion dialog: interactive demo ---
+
+function PromotionDemo(): React.JSX.Element {
+  const [showPromotion, setShowPromotion] = useState(true);
+  const promotionSquare = 'e8' as Square;
+  const coords = squareCoords(promotionSquare, 'white');
+
+  return (
+    <Board position="rnbqkbnr/ppppPppp/8/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1">
+      {showPromotion && (
+        <div
+          style={{
+            gridColumn: coords.col,
+            gridRow: `${coords.row} / span 4`,
+            zIndex: 10,
+          }}
+        >
+          <PromotionDialog
+            color="white"
+            onCancel={() => setShowPromotion(false)}
+            onSelect={(_piece: PromotionPiece) => {
+              setShowPromotion(false);
+            }}
+            squareSize={50}
+          />
+        </div>
+      )}
+    </Board>
+  );
+}
+
+export const Promotion: Story = {
+  render: () => <PromotionDemo />,
 };
