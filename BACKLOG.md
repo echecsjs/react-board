@@ -15,9 +15,8 @@ Last updated: 2026-04-04
 
 ## Medium
 
-- [ ] Storybook — replace `playground/` with Storybook 10 for interactive
-      component documentation. Stories for all prop combinations, theme
-      variants, controls. Reference `react-movesheet/.storybook/` setup.
+- [x] ~~Storybook~~ — replaced `playground/` with Storybook 10. 11 stories
+      covering all props, themes, and controls.
 - [ ] Promotion UI — when a pawn reaches the last rank, show a piece selection
       dialog instead of auto-promoting to queen.
 - [ ] Move sound effects — play sounds on move, capture, check. Optional,

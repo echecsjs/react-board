@@ -34,11 +34,16 @@ src/
   pieces/
     b-b.tsx … w-r.tsx    # Bundled cburnett SVG pieces (one file per piece)
     index.ts             # DEFAULT_PIECES record
+  __stories__/
+    board.stories.tsx   # Storybook stories
   __tests__/
     board.spec.tsx
     fen.spec.ts
     use-animation.spec.ts
     utilities.spec.ts
+.storybook/
+  main.ts                # Storybook config
+  preview.ts             # Storybook preview config
 ```
 
 ## Commands
@@ -52,6 +57,8 @@ pnpm lint               # ESLint --fix + tsc --noEmit
 pnpm lint:ci            # strict — zero warnings, no auto-fix
 pnpm format             # Prettier --write
 pnpm format:ci          # Prettier check
+pnpm storybook          # start Storybook dev server on port 6006
+pnpm storybook:build    # build static Storybook site
 ```
 
 ## Component API
