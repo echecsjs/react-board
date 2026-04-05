@@ -17,8 +17,8 @@ Last updated: 2026-04-04
 
 - [x] ~~Storybook~~ — replaced `playground/` with Storybook 10. 11 stories
       covering all props, themes, and controls.
-- [ ] Promotion UI — when a pawn reaches the last rank, show a piece selection
-      dialog instead of auto-promoting to queen.
+- [x] ~~Promotion UI~~ — added `<PromotionDialog />` component and `children`
+      prop on Board. Consumer positions dialog in the board grid.
 - [ ] Move sound effects — play sounds on move, capture, check. Optional,
       disabled by default.
 - [ ] Piece shadow during drag — add a subtle drop shadow to the floating ghost
