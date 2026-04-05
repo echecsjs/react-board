@@ -84,16 +84,17 @@ pnpm storybook:build    # build static Storybook site
 All visual styling is controlled via CSS custom properties. Set them on a parent
 element to override defaults.
 
-| Variable                       | Default               | Description                      |
-| ------------------------------ | --------------------- | -------------------------------- |
-| `--board-dark-square`          | `#779952`             | Dark square colour               |
-| `--board-light-square`         | `#edeed1`             | Light square colour              |
-| `--board-highlight`            | `rgba(255,255,0,0.4)` | Highlight overlay                |
-| `--board-legal-dot`            | `rgba(0,0,0,0.2)`     | Legal move dot colour            |
-| `--board-coordinate-on-light`  | `#779952`             | Coordinate text on light squares |
-| `--board-coordinate-on-dark`   | `#edeed1`             | Coordinate text on dark squares  |
-| `--board-coordinate-weight`    | `600`                 | Coordinate font weight           |
-| `--board-promotion-background` | `rgba(0,0,0,0.6)`     | Promotion dialog background      |
+| Variable                       | Default                                  | Description                      |
+| ------------------------------ | ---------------------------------------- | -------------------------------- |
+| `--board-dark-square`          | `#779952`                                | Dark square colour               |
+| `--board-light-square`         | `#edeed1`                                | Light square colour              |
+| `--board-highlight`            | `rgba(255,255,0,0.4)`                    | Highlight overlay                |
+| `--board-legal-dot`            | `rgba(0,0,0,0.2)`                        | Legal move dot colour            |
+| `--board-coordinate-on-light`  | `#779952`                                | Coordinate text on light squares |
+| `--board-coordinate-on-dark`   | `#edeed1`                                | Coordinate text on dark squares  |
+| `--board-coordinate-weight`    | `600`                                    | Coordinate font weight           |
+| `--board-promotion-background` | `rgba(0,0,0,0.6)`                        | Promotion dialog background      |
+| `--board-drag-shadow`          | `drop-shadow(0 4px 8px rgba(0,0,0,0.4))` | Drag ghost filter                |
 
 ### `<PromotionDialog />`
 

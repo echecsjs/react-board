@@ -21,8 +21,8 @@ Last updated: 2026-04-04
       prop on Board. Consumer positions dialog in the board grid.
 - [ ] Move sound effects — play sounds on move, capture, check. Optional,
       disabled by default.
-- [ ] Piece shadow during drag — add a subtle drop shadow to the floating ghost
-      piece for better visual feedback.
+- [x] ~~Piece shadow during drag~~ — `drop-shadow` filter on ghost piece via
+      `--board-drag-shadow` CSS variable.
 
 ## Future (v2)
 

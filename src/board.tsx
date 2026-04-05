@@ -140,6 +140,8 @@ function Board({
   const ghostStyle: React.CSSProperties | undefined =
     dragState.isDragging && dragState.floating
       ? {
+          filter:
+            'var(--board-drag-shadow, drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)))',
           left: dragState.floating.x - squareSize / 2,
           pointerEvents: 'none',
           position: 'fixed',
