@@ -117,13 +117,13 @@ function Board({
   };
 
   const gridStyle: React.CSSProperties = {
+    WebkitUserDrag: 'none',
     display: 'grid',
     gridTemplateColumns: 'repeat(8, 1fr)',
     gridTemplateRows: 'repeat(8, 1fr)',
     height: '100%',
     touchAction: 'none',
     userSelect: 'none',
-    WebkitUserDrag: 'none',
     width: '100%',
   } as React.CSSProperties;
 
@@ -158,7 +158,7 @@ function Board({
       {interactive ? (
         <div
           data-board-grid
-          onDragStart={(e) => e.preventDefault()}
+          onDragStart={(event) => event.preventDefault()}
           style={gridStyle}
           onPointerDown={handlers.onPointerDown}
           onPointerMove={handlers.onPointerMove}

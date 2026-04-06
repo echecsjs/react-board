@@ -85,6 +85,18 @@ export default typescript.config(
     },
   },
   /**
+   * Stories
+   */
+  {
+    files: ['**/__stories__/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      'import-x/exports-last': 'off',
+      'import-x/group-exports': 'off',
+      'sort-keys': 'off',
+    },
+  },
+  /**
    * Tests
    */
   {

@@ -4,12 +4,11 @@ import { Board } from '../index.js';
 import { PromotionDialog } from '../promotion-dialog.js';
 import { squareCoords } from '../utilities.js';
 
-import type { PromotionPiece } from '../promotion-dialog.js';
-import type { BoardProps } from '../types.js';
+import type { BoardProps as BoardProperties } from '../types.js';
 import type { Square } from '@echecs/position';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-const meta: Meta<BoardProps> = {
+const meta: Meta<BoardProperties> = {
   argTypes: {
     animate: { control: 'boolean' },
     coordinates: { control: 'boolean' },
@@ -31,7 +30,7 @@ const meta: Meta<BoardProps> = {
 
 export default meta;
 
-type Story = StoryObj<BoardProps>;
+type Story = StoryObj<BoardProperties>;
 
 // -- Default: starting position, all defaults ---
 
@@ -162,7 +161,7 @@ function PromotionDemo(): React.JSX.Element {
           <PromotionDialog
             color="white"
             onCancel={() => setShowPromotion(false)}
-            onSelect={(_piece: PromotionPiece) => {
+            onSelect={() => {
               setShowPromotion(false);
             }}
             squareSize={50}

@@ -5,7 +5,7 @@ import type React from 'react';
 
 type PromotionPiece = 'b' | 'n' | 'q' | 'r';
 
-interface PromotionDialogProps {
+interface PromotionDialogProperties {
   color: 'black' | 'white';
   onCancel?: () => void;
   onSelect: (piece: PromotionPiece) => void;
@@ -21,7 +21,7 @@ function PromotionDialog({
   onSelect,
   pieces = DEFAULT_PIECES,
   squareSize,
-}: PromotionDialogProps): React.JSX.Element {
+}: PromotionDialogProperties): React.JSX.Element {
   const colorPrefix = color === 'white' ? 'w' : 'b';
 
   const containerStyle: React.CSSProperties = {
@@ -71,11 +71,11 @@ function PromotionDialog({
           }}
           style={{
             ...itemStyle,
-            fontSize: squareSize * 0.3,
             color: 'rgba(255, 255, 255, 0.7)',
+            fontSize: squareSize * 0.3,
           }}
         >
-          {'\u00d7'}
+          {'\u00D7'}
         </div>
       )}
     </div>
@@ -83,4 +83,7 @@ function PromotionDialog({
 }
 
 export { PromotionDialog };
-export type { PromotionDialogProps, PromotionPiece };
+export type {
+  PromotionDialogProperties as PromotionDialogProps,
+  PromotionPiece,
+};
