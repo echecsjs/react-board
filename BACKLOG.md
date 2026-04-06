@@ -19,8 +19,8 @@ Last updated: 2026-04-04
       covering all props, themes, and controls.
 - [x] ~~Promotion UI~~ — added `<PromotionDialog />` component and `children`
       prop on Board. Consumer positions dialog in the board grid.
-- [ ] Move sound effects — play sounds on move, capture, check. Optional,
-      disabled by default.
+- [x] ~~Move sound effects~~ — added `capture: boolean` to `MoveEvent`, bundled
+      move/capture mp3 assets as subpath exports.
 - [x] ~~Piece shadow during drag~~ — `drop-shadow` filter on ghost piece via
       `--board-drag-shadow` CSS variable.
 

@@ -24,6 +24,7 @@ interface BoardProperties {
 }
 
 interface MoveEvent {
+  capture: boolean;
   from: Square;
   promotion?: string;
   to: Square;

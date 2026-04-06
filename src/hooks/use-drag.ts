@@ -136,12 +136,14 @@ function useDrag({
       }
 
       if (onMove) {
-        return onMove({ from, to });
+        const capture = pieces.has(to);
+
+        return onMove({ capture, from, to });
       }
 
       return true;
     },
-    [isLegalTarget, onMove],
+    [isLegalTarget, onMove, pieces],
   );
 
   const onPointerDown = useCallback(

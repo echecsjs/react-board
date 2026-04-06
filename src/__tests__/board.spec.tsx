@@ -225,7 +225,11 @@ describe('interaction', () => {
     // e4 center: col=5, row=5 → x=270, y=(4+0.5)*60=270
     fireEvent.pointerUp(grid, { clientX: 270, clientY: 270, pointerId: 1 });
 
-    expect(onMove).toHaveBeenCalledWith({ from: 'e2', to: 'e4' });
+    expect(onMove).toHaveBeenCalledWith({
+      capture: false,
+      from: 'e2',
+      to: 'e4',
+    });
   });
 
   it('does not call onMove when interactive is false', () => {
@@ -266,7 +270,11 @@ describe('interaction', () => {
     fireEvent.pointerDown(grid, { clientX: 270, clientY: 270, pointerId: 1 });
     fireEvent.pointerUp(grid, { clientX: 270, clientY: 270, pointerId: 1 });
 
-    expect(onMove).toHaveBeenCalledWith({ from: 'e2', to: 'e4' });
+    expect(onMove).toHaveBeenCalledWith({
+      capture: false,
+      from: 'e2',
+      to: 'e4',
+    });
   });
 
   it('deselects on clicking the same piece', () => {

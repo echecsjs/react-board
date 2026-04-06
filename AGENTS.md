@@ -110,11 +110,20 @@ element to override defaults.
 
 ```typescript
 interface MoveEvent {
+  capture: boolean;
   from: Square;
   promotion?: string;
   to: Square;
 }
 ```
+
+### Sound Assets
+
+Bundled move and capture sounds (Lichess standard set, MIT licensed). Available
+as package subpath exports:
+
+- `@echecs/react-board/sounds/move.mp3`
+- `@echecs/react-board/sounds/capture.mp3`
 
 ## Conventions
 
