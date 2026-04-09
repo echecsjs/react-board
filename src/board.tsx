@@ -267,17 +267,17 @@ function Board({
 
             return (
               <div data-square={square} key={square} style={squareStyle}>
-                {PieceComponent && (
-                  <div style={pieceStyle}>
-                    <PieceComponent size={squareSize} />
-                  </div>
-                )}
                 {(isHighlighted || isSelected) && (
                   <div
                     data-highlight={isHighlighted || undefined}
                     data-selected={isSelected || undefined}
                     style={highlightStyle}
                   />
+                )}
+                {PieceComponent && (
+                  <div style={pieceStyle}>
+                    <PieceComponent size={squareSize} />
+                  </div>
                 )}
                 {hasLegalDot && <div data-legal-dot style={legalDotStyle} />}
                 {showRankCoord && (
@@ -396,12 +396,12 @@ function Board({
 
             return (
               <div data-square={square} key={square} style={squareStyle}>
+                {isHighlighted && <div data-highlight style={highlightStyle} />}
                 {PieceComponent && (
                   <div style={pieceStyle}>
                     <PieceComponent size={squareSize} />
                   </div>
                 )}
-                {isHighlighted && <div data-highlight style={highlightStyle} />}
                 {hasLegalDot && <div data-legal-dot style={legalDotStyle} />}
                 {showRankCoord && (
                   <span data-coordinate="rank" style={rankCoordStyle}>
