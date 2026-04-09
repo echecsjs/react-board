@@ -44,6 +44,7 @@
     "@echecs/position": "^1.0.0"
   },
   "devDependencies": {
+    "@echecs/game": "^2.0.0",
     "@eslint/js": "^10.0.1",
     "@storybook/react-vite": "^10.3.4",
     "@testing-library/jest-dom": "^6.6.3",

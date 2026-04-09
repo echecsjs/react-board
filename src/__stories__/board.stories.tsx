@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { Game } from '@echecs/game';
+import { useCallback, useRef, useState } from 'react';
 
 import { Board } from '../index.js';
 import { PromotionDialog } from '../promotion-dialog.js';
 import { squareCoords } from '../utilities.js';
 
-import type { BoardProps as BoardProperties } from '../types.js';
-import type { Square } from '@echecs/position';
+import type { BoardProps as BoardProperties, MoveEvent  } from '../types.js';
+import type { Piece, Square } from '@echecs/position';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<BoardProperties> = {
@@ -129,16 +130,78 @@ export const DarkTheme: Story = {
   ],
 };
 
-// -- Interactive: all props exposed as controls ---
+// -- Interactive: playable game with @echecs/game ---
+
+const COLOR_MAP: Record<string, 'b' | 'w'> = { black: 'b', white: 'w' };
+const TYPE_MAP: Record<string, 'b' | 'k' | 'n' | 'p' | 'q' | 'r'> = {
+  bishop: 'b',
+  king: 'k',
+  knight: 'n',
+  pawn: 'p',
+  queen: 'q',
+  rook: 'r',
+};
+
+function toPosition(game: Game): Map<Square, Piece> {
+  const result = new Map<Square, Piece>();
+  for (const [square, piece] of game.position().pieces()) {
+    result.set(
+      square as Square,
+      {
+        color: COLOR_MAP[piece.color],
+        type: TYPE_MAP[piece.type],
+      } as Piece,
+    );
+  }
+  return result;
+}
+
+function toLegalMoves(game: Game): Map<Square, Square[]> {
+  const result = new Map<Square, Square[]>();
+  for (const move of game.moves()) {
+    const from = move.from as Square;
+    const to = move.to as Square;
+    const existing = result.get(from) ?? [];
+    if (!existing.includes(to)) {
+      existing.push(to);
+    }
+    result.set(from, existing);
+  }
+  return result;
+}
+
+function InteractiveGame(): React.JSX.Element {
+  const gameReference = useRef(new Game());
+  const [position, setPosition] = useState(() => toPosition(gameReference.current));
+  const [legalMoves, setLegalMoves] = useState(() =>
+    toLegalMoves(gameReference.current),
+  );
+  const [turn, setTurn] = useState<'white' | 'black'>('white');
+
+  const handleMove = useCallback((move: MoveEvent): boolean => {
+    try {
+      gameReference.current.move({ from: move.from, to: move.to });
+      setPosition(toPosition(gameReference.current));
+      setLegalMoves(toLegalMoves(gameReference.current));
+      setTurn(gameReference.current.turn() as 'white' | 'black');
+      return true;
+    } catch {
+      return false;
+    }
+  }, []);
+
+  return (
+    <Board
+      legalMoves={legalMoves}
+      onMove={handleMove}
+      position={position}
+      turn={turn}
+    />
+  );
+}
 
 export const Interactive: Story = {
-  args: {
-    animate: true,
-    coordinates: true,
-    interactive: true,
-    orientation: 'white',
-    position: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
-  },
+  render: () => <InteractiveGame />,
 };
 
 // -- Promotion dialog: interactive demo ---
