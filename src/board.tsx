@@ -254,8 +254,10 @@ function Board({
             }
 
             const animOffset = animationOffsets.get(square);
-            const pieceStyle: React.CSSProperties | undefined =
-              PieceComponent && animOffset
+            const pieceStyle: React.CSSProperties = {
+              position: 'relative',
+              zIndex: 1,
+              ...(animOffset
                 ? {
                     transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
                     transition:
@@ -263,7 +265,8 @@ function Board({
                         ? 'none'
                         : 'transform 200ms ease',
                   }
-                : undefined;
+                : undefined),
+            };
 
             return (
               <div data-square={square} key={square} style={squareStyle}>
@@ -383,8 +386,10 @@ function Board({
             }
 
             const animOffset = animationOffsets.get(square);
-            const pieceStyle: React.CSSProperties | undefined =
-              PieceComponent && animOffset
+            const pieceStyle: React.CSSProperties = {
+              position: 'relative',
+              zIndex: 1,
+              ...(animOffset
                 ? {
                     transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
                     transition:
@@ -392,7 +397,8 @@ function Board({
                         ? 'none'
                         : 'transform 200ms ease',
                   }
-                : undefined;
+                : undefined),
+            };
 
             return (
               <div data-square={square} key={square} style={squareStyle}>
