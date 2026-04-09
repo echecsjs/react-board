@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from 'react';
 import captureSound from '../../sounds/capture.mp3';
 import castleSound from '../../sounds/castle.mp3';
 import checkSound from '../../sounds/check.mp3';
+import gameEndSound from '../../sounds/game-end.mp3';
 import moveSound from '../../sounds/move.mp3';
 import { Board } from '../index.js';
 import { PromotionDialog } from '../promotion-dialog.js';
@@ -192,13 +193,15 @@ function InteractiveGame(): React.JSX.Element {
         gameReference.current.get(move.from as never)?.type === 'king' &&
         Math.abs(fromFile - toFile) === 2;
       gameReference.current.move({ from: move.from, to: move.to });
-      const sound = gameReference.current.isCheck()
-        ? checkSound
-        : isCastle
-          ? castleSound
-          : move.capture
-            ? captureSound
-            : moveSound;
+      const sound = gameReference.current.isGameOver()
+        ? gameEndSound
+        : gameReference.current.isCheck()
+          ? checkSound
+          : isCastle
+            ? castleSound
+            : move.capture
+              ? captureSound
+              : moveSound;
       new Audio(sound).play();
       setPosition(toPosition(gameReference.current));
       setLegalMoves(toLegalMoves(gameReference.current));
