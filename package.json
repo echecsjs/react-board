@@ -23,6 +23,7 @@
       "types": "./dist/index.d.ts"
     },
     "./sounds/capture.mp3": "./sounds/capture.mp3",
+    "./sounds/castle.mp3": "./sounds/castle.mp3",
     "./sounds/check.mp3": "./sounds/check.mp3",
     "./sounds/move.mp3": "./sounds/move.mp3"
   },
