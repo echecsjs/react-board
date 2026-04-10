@@ -19,13 +19,13 @@ describe('Board', () => {
       <Board position="8/8/8/8/8/8/8/4K3 w - - 0 1" />,
     );
     const kingSquare = container.querySelector('[data-square="e1"]');
-    expect(kingSquare?.querySelector('svg')).toBeTruthy();
+    expect(kingSquare?.querySelector('[data-piece]')).toBeTruthy();
   });
 
   it('renders default starting position when no position prop', () => {
     const { container } = render(<Board />);
     // Starting position has 32 pieces (16 per side)
-    const svgs = container.querySelectorAll('[data-square] svg');
+    const svgs = container.querySelectorAll('[data-square] [data-piece]');
     expect(svgs).toHaveLength(32);
   });
 
@@ -33,7 +33,7 @@ describe('Board', () => {
     const { container } = render(
       <Board position="8/8/8/8/8/8/8/8 w - - 0 1" />,
     );
-    const svgs = container.querySelectorAll('[data-square] svg');
+    const svgs = container.querySelectorAll('[data-square] [data-piece]');
     expect(svgs).toHaveLength(0);
   });
 
@@ -150,9 +150,13 @@ describe('Board', () => {
 
   it('uses custom piece set when pieces prop provided', () => {
     const customWK =
-      'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" id="custom-wk"/>';
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" id="custom-wk"/>',
+      );
     const placeholder =
-      'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>';
+      'data:image/svg+xml,' +
+      encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg"/>');
     const { container } = render(
       <Board
         pieces={{
