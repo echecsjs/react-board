@@ -3,16 +3,16 @@ import '@testing-library/jest-dom';
 // jsdom does not implement PointerEvent — polyfill it so pointer event
 // tests work. We extend MouseEvent to preserve clientX/clientY support.
 class PointerEventPolyfill extends MouseEvent {
+  height: number;
+  isPrimary: boolean;
   pointerId: number;
   pointerType: string;
-  isPrimary: boolean;
   pressure: number;
   tangentialPressure: number;
   tiltX: number;
   tiltY: number;
   twist: number;
   width: number;
-  height: number;
 
   constructor(type: string, parameters: PointerEventInit = {}) {
     super(type, parameters);
