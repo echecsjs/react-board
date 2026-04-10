@@ -6,11 +6,7 @@ import { useDrag } from './hooks/use-drag.js';
 import { DEFAULT_PIECES } from './pieces/index.js';
 import { SQUARES, squareColor, squareCoords } from './utilities.js';
 
-import type {
-  BoardProps as BoardProperties,
-  PieceComponent as PieceComponentType,
-  PieceKey,
-} from './types.js';
+import type { BoardProps as BoardProperties, PieceKey } from './types.js';
 import type React from 'react';
 
 const STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
@@ -128,7 +124,7 @@ function Board({
   } as React.CSSProperties;
 
   // Floating ghost piece during drag
-  let GhostPiece: PieceComponentType | undefined;
+  let ghostImage: string | undefined;
 
   if (dragState.isDragging && dragState.from) {
     const ghostPiece = positionMap.get(dragState.from);
@@ -136,19 +132,25 @@ function Board({
     if (ghostPiece) {
       const ghostKey: PieceKey =
         `${ghostPiece.color}${ghostPiece.type.toUpperCase()}` as PieceKey;
-      GhostPiece = pieces[ghostKey];
+      ghostImage = pieces[ghostKey];
     }
   }
 
   const ghostStyle: React.CSSProperties | undefined =
-    dragState.isDragging && dragState.floating
+    dragState.isDragging && dragState.floating && ghostImage
       ? {
+          backgroundImage: `url("${ghostImage}")`,
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'contain',
           filter:
             'var(--board-drag-shadow, drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)))',
+          height: squareSize,
           left: dragState.floating.x - squareSize / 2,
           pointerEvents: 'none',
           position: 'fixed',
           top: dragState.floating.y - squareSize / 2,
+          width: squareSize,
           zIndex: 9999,
         }
       : undefined;
@@ -245,28 +247,36 @@ function Board({
               width: '30%',
             };
 
-            let PieceComponent: PieceComponentType | undefined;
+            let pieceImage: string | undefined;
 
             if (piece && !hidePiece) {
               const key: PieceKey =
                 `${piece.color}${piece.type.toUpperCase()}` as PieceKey;
-              PieceComponent = pieces[key];
+              pieceImage = pieces[key];
             }
 
             const animOffset = animationOffsets.get(square);
-            const pieceStyle: React.CSSProperties = {
-              position: 'relative',
-              zIndex: 1,
-              ...(animOffset
-                ? {
-                    transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
-                    transition:
-                      animOffset.x !== 0 || animOffset.y !== 0
-                        ? 'none'
-                        : 'transform 200ms ease',
-                  }
-                : undefined),
-            };
+            const pieceStyle: React.CSSProperties | undefined = pieceImage
+              ? {
+                  backgroundImage: `url("${pieceImage}")`,
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'contain',
+                  height: '100%',
+                  position: 'relative',
+                  width: '100%',
+                  zIndex: 1,
+                  ...(animOffset
+                    ? {
+                        transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
+                        transition:
+                          animOffset.x !== 0 || animOffset.y !== 0
+                            ? 'none'
+                            : 'transform 200ms ease',
+                      }
+                    : undefined),
+                }
+              : undefined;
 
             return (
               <div data-square={square} key={square} style={squareStyle}>
@@ -277,11 +287,7 @@ function Board({
                     style={highlightStyle}
                   />
                 )}
-                {PieceComponent && (
-                  <div style={pieceStyle}>
-                    <PieceComponent size={squareSize} />
-                  </div>
-                )}
+                {pieceStyle && <div data-piece style={pieceStyle} />}
                 {hasLegalDot && <div data-legal-dot style={legalDotStyle} />}
                 {showRankCoord && (
                   <span data-coordinate="rank" style={rankCoordStyle}>
