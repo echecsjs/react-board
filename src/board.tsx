@@ -383,37 +383,41 @@ function Board({
               width: '30%',
             };
 
-            let PieceComponent: PieceComponentType | undefined;
+            let pieceImage: string | undefined;
 
             if (piece) {
               const key: PieceKey =
                 `${piece.color}${piece.type.toUpperCase()}` as PieceKey;
-              PieceComponent = pieces[key];
+              pieceImage = pieces[key];
             }
 
             const animOffset = animationOffsets.get(square);
-            const pieceStyle: React.CSSProperties = {
-              position: 'relative',
-              zIndex: 1,
-              ...(animOffset
-                ? {
-                    transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
-                    transition:
-                      animOffset.x !== 0 || animOffset.y !== 0
-                        ? 'none'
-                        : 'transform 200ms ease',
-                  }
-                : undefined),
-            };
+            const pieceStyle: React.CSSProperties | undefined = pieceImage
+              ? {
+                  backgroundImage: `url("${pieceImage}")`,
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'contain',
+                  height: '100%',
+                  position: 'relative',
+                  width: '100%',
+                  zIndex: 1,
+                  ...(animOffset
+                    ? {
+                        transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
+                        transition:
+                          animOffset.x !== 0 || animOffset.y !== 0
+                            ? 'none'
+                            : 'transform 200ms ease',
+                      }
+                    : undefined),
+                }
+              : undefined;
 
             return (
               <div data-square={square} key={square} style={squareStyle}>
                 {isHighlighted && <div data-highlight style={highlightStyle} />}
-                {PieceComponent && (
-                  <div style={pieceStyle}>
-                    <PieceComponent size={squareSize} />
-                  </div>
-                )}
+                {pieceStyle && <div data-piece style={pieceStyle} />}
                 {hasLegalDot && <div data-legal-dot style={legalDotStyle} />}
                 {showRankCoord && (
                   <span data-coordinate="rank" style={rankCoordStyle}>
@@ -431,11 +435,7 @@ function Board({
           {children}
         </div>
       )}
-      {GhostPiece && ghostStyle && (
-        <div data-ghost style={ghostStyle}>
-          <GhostPiece size={squareSize} />
-        </div>
-      )}
+      {ghostStyle && <div data-ghost style={ghostStyle} />}
     </div>
   );
 }
