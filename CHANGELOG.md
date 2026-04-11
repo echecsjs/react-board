@@ -1,5 +1,36 @@
 # Changelog
 
+## [2.0.0] - 2026-04-11
+
+### Added
+
+- `--board-piece-transition` CSS variable to customise piece move animation
+  (default: `transform 200ms ease`)
+- gh-pages deployment workflow for storybook documentation
+- promotion support in the interactive storybook demo
+
+### Changed
+
+- **BREAKING:** `PieceSet` type changed from
+  `Record<PieceKey, React.ComponentType<{ size: number }>>` to
+  `Record<PieceKey, string>` — pieces are now image URLs (data URIs, SVG files,
+  PNGs) rendered as CSS `background-image` instead of React components
+- **BREAKING:** `PieceComponent` type removed from public exports
+- bundled cburnett piece set converted from inline SVG components to
+  `data:image/svg+xml` URIs
+- drag-drop animation now starts from the drop point instead of the origin
+  square
+
+### Fixed
+
+- pieces appearing behind adjacent squares during drag (removed
+  `overflow: hidden` from squares)
+
+### Removed
+
+- 12 individual piece TSX component files (`src/pieces/*.tsx`) — replaced by
+  data URIs in `src/pieces/index.ts`
+
 ## [1.0.2] - 2026-04-09
 
 ### Added

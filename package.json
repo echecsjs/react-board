@@ -1,6 +1,6 @@
 {
   "name": "@echecs/react-board",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "type": "module",
   "license": "MIT",
   "description": "React chessboard component with drag & drop, animation, and theming. Bundled cburnett piece set, zero external dependencies.",
