@@ -7,11 +7,11 @@
   "author": "Adrian de la Rosa <adrian@delarosab.me>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mormubis/react-board.git"
+    "url": "https://github.com/echecsjs/react-board.git"
   },
-  "homepage": "https://mormubis.github.io/react-board",
+  "homepage": "https://echecsjs.github.io/react-board",
   "bugs": {
-    "url": "https://github.com/mormubis/react-board/issues"
+    "url": "https://github.com/echecsjs/react-board/issues"
   },
   "publishConfig": {
     "access": "public"
