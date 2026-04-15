@@ -5,6 +5,7 @@ export { squareCoords } from './utilities.js';
 
 export type {
   Arrow,
+  ArrowKind,
   BoardProps,
   MoveEvent,
   PieceKey,

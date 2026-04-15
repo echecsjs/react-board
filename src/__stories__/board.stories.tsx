@@ -10,7 +10,11 @@ import { Board } from '../index.js';
 import { PromotionDialog } from '../promotion-dialog.js';
 import { squareCoords } from '../utilities.js';
 
-import type { BoardProps as BoardProperties, MoveEvent } from '../types.js';
+import type {
+  Arrow,
+  BoardProps as BoardProperties,
+  MoveEvent,
+} from '../types.js';
 import type { Piece, Square } from '@echecs/position';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -75,6 +79,19 @@ export const WithHighlights: Story = {
   },
 };
 
+// -- With arrows ---
+
+export const WithArrows: Story = {
+  args: {
+    arrows: [
+      { from: 'e2', to: 'e4', kind: 'move' },
+      { from: 'f1', to: 'c4', kind: 'alternative' },
+      { from: 'd7', to: 'd5', kind: 'danger' },
+      { from: 'b8', to: 'c6', kind: 'capture' },
+    ] as Arrow[],
+  },
+};
+
 // -- With legal moves ---
 
 export const WithLegalMoves: Story = {
@@ -125,6 +142,33 @@ export const DarkTheme: Story = {
             '--board-coordinate-on-light': '#b58863',
             '--board-dark-square': '#b58863',
             '--board-light-square': '#f0d9b5',
+            'width': 400,
+          } as React.CSSProperties
+        }
+      >
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+// -- Custom arrow colors via CSS variables ---
+
+export const CustomArrowColors: Story = {
+  args: {
+    arrows: [
+      { from: 'e2', to: 'e4', kind: 'move' },
+      { from: 'f1', to: 'c4', kind: 'alternative' },
+    ] as Arrow[],
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={
+          {
+            '--board-arrow-alternative': '#9b59b6',
+            '--board-arrow-move': '#e67e22',
+            '--board-arrow-opacity': '0.6',
             'width': 400,
           } as React.CSSProperties
         }

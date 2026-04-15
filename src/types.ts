@@ -1,9 +1,11 @@
 import type { Piece, Square } from '@echecs/position';
 import type React from 'react';
 
+type ArrowKind = 'alternative' | 'capture' | 'danger' | 'move';
+
 interface Arrow {
-  brush: string;
   from: Square;
+  kind: ArrowKind;
   to: Square;
 }
 
@@ -48,6 +50,7 @@ type PieceSet = Record<PieceKey, string>;
 
 export type {
   Arrow,
+  ArrowKind,
   BoardProperties as BoardProps,
   MoveEvent,
   PieceKey,

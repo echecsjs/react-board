@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
+import ArrowOverlay from './arrow-overlay.js';
 import { parseFen } from './fen.js';
 import { useAnimation } from './hooks/use-animation.js';
 import { useDrag } from './hooks/use-drag.js';
@@ -13,6 +14,7 @@ const STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
 function Board({
   animate = true,
+  arrows = [],
   children,
   coordinates = true,
   highlight: highlightSquares = [],
@@ -437,6 +439,11 @@ function Board({
           {children}
         </div>
       )}
+      <ArrowOverlay
+        arrows={arrows}
+        orientation={orientation}
+        squareSize={squareSize}
+      />
       {ghostStyle && <div data-ghost style={ghostStyle} />}
     </div>
   );
