@@ -1,6 +1,9 @@
+import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { arrowPath } from '../arrow-overlay.js';
+import ArrowOverlay, { arrowPath } from '../arrow-overlay.js';
+
+import type { Arrow } from '../types.js';
 
 describe('arrowPath', () => {
   const SHAFT_WIDTH = 12;
@@ -83,5 +86,75 @@ describe('arrowPath', () => {
     const d = arrowPath(50, 350, 50, 50, SHAFT_WIDTH, HEAD_WIDTH, HEAD_LENGTH);
     const points = d.replace(/^M/, '').replace(/Z$/, '').split('L');
     expect(points).toHaveLength(7);
+  });
+});
+
+describe('ArrowOverlay', () => {
+  it('renders nothing when arrows is empty', () => {
+    const { container } = render(
+      <ArrowOverlay arrows={[]} orientation="white" squareSize={60} />,
+    );
+    expect(container.querySelector('svg')).toBeNull();
+  });
+
+  it('renders an svg with data-arrows attribute', () => {
+    const arrows: Arrow[] = [{ from: 'e2', to: 'e4', kind: 'move' }];
+    const { container } = render(
+      <ArrowOverlay arrows={arrows} orientation="white" squareSize={60} />,
+    );
+    const svg = container.querySelector('svg[data-arrows]');
+    expect(svg).not.toBeNull();
+  });
+
+  it('renders one path per arrow', () => {
+    const arrows: Arrow[] = [
+      { from: 'e2', to: 'e4', kind: 'move' },
+      { from: 'f1', to: 'c4', kind: 'alternative' },
+    ];
+    const { container } = render(
+      <ArrowOverlay arrows={arrows} orientation="white" squareSize={60} />,
+    );
+    const paths = container.querySelectorAll('path');
+    expect(paths).toHaveLength(2);
+  });
+
+  it('deduplicates identical arrows', () => {
+    const arrows: Arrow[] = [
+      { from: 'e2', to: 'e4', kind: 'move' },
+      { from: 'e2', to: 'e4', kind: 'move' },
+    ];
+    const { container } = render(
+      <ArrowOverlay arrows={arrows} orientation="white" squareSize={60} />,
+    );
+    const paths = container.querySelectorAll('path');
+    expect(paths).toHaveLength(1);
+  });
+
+  it('applies the correct CSS variable for each kind', () => {
+    const arrows: Arrow[] = [
+      { from: 'e2', to: 'e4', kind: 'move' },
+      { from: 'd2', to: 'd4', kind: 'capture' },
+      { from: 'f1', to: 'c4', kind: 'danger' },
+      { from: 'g1', to: 'f3', kind: 'alternative' },
+    ];
+    const { container } = render(
+      <ArrowOverlay arrows={arrows} orientation="white" squareSize={60} />,
+    );
+    const paths = container.querySelectorAll('path');
+    expect(paths[0]!.getAttribute('style')).toContain('--board-arrow-move');
+    expect(paths[1]!.getAttribute('style')).toContain('--board-arrow-capture');
+    expect(paths[2]!.getAttribute('style')).toContain('--board-arrow-danger');
+    expect(paths[3]!.getAttribute('style')).toContain(
+      '--board-arrow-alternative',
+    );
+  });
+
+  it('sets pointer-events to none on the svg', () => {
+    const arrows: Arrow[] = [{ from: 'e2', to: 'e4', kind: 'move' }];
+    const { container } = render(
+      <ArrowOverlay arrows={arrows} orientation="white" squareSize={60} />,
+    );
+    const svg = container.querySelector('svg')!;
+    expect(svg.style.pointerEvents).toBe('none');
   });
 });
