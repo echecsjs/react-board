@@ -22,7 +22,8 @@ const meta: Meta<BoardProperties> = {
   argTypes: {
     animate: { control: 'boolean' },
     coordinates: { control: 'boolean' },
-    interactive: { control: 'boolean' },
+    drawable: { control: 'boolean' },
+    movable: { control: 'boolean' },
     orientation: { control: 'radio', options: ['white', 'black'] },
     position: { control: 'text' },
     turn: { control: 'radio', options: [undefined, 'white', 'black'] },
@@ -92,11 +93,27 @@ export const WithArrows: Story = {
   },
 };
 
+// -- Drawable: right-click to draw annotations ---
+
+export const Drawable: Story = {
+  args: {
+    drawable: true,
+    movable: true,
+  },
+};
+
+// -- Drawable only: annotations without piece movement ---
+
+export const DrawableOnly: Story = {
+  args: {
+    drawable: true,
+  },
+};
+
 // -- With legal moves ---
 
 export const WithLegalMoves: Story = {
   args: {
-    interactive: false,
     legalMoves: new Map([
       ['e2', ['e3', 'e4']],
       ['d2', ['d3', 'd4']],
@@ -126,6 +143,7 @@ export const NoAnimation: Story = {
 
 export const TurnRestriction: Story = {
   args: {
+    movable: true,
     turn: 'white',
   },
 };
@@ -326,6 +344,7 @@ function InteractiveGame(): React.JSX.Element {
   return (
     <Board
       legalMoves={legalMoves}
+      movable
       onMove={handleMove}
       position={position}
       turn={turn}

@@ -4,9 +4,11 @@ export { PromotionDialog } from './promotion-dialog.js';
 export { squareCoords } from './utilities.js';
 
 export type {
+  Annotations,
   Arrow,
   ArrowKind,
   BoardProps,
+  Circle,
   MoveEvent,
   PieceKey,
   PieceSet,
