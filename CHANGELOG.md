@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.1.0] - 2026-04-16
+
+### Added
+
+- right-click drawable annotations — `drawable` prop, circle and arrow drawing
+  via `useDrawing` hook and `AnnotationOverlay` component
+- SVG arrow overlay — `arrows` prop with semantic `kind` types (`move`,
+  `alternative`, `danger`, `capture`)
+- touch-aware drag threshold (10px for touch, 4px for mouse)
+- `movable` prop to control piece interaction independently from `drawable`
+
+### Fixed
+
+- drag restricted to left-click only (right-click no longer initiates drag)
+
 ## [2.0.0] - 2026-04-11
 
 ### Added
