@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.1.1] - 2026-04-16
+
+### Fixed
+
+- animation offset stuck when parent re-renders during RAF window — removed
+  `cancelAnimationFrame` cleanup from `useAnimation` effect since the
+  offset-clearing callback is idempotent (#14)
+- added `docs` script for CI storybook deployment (#13)
+- added missing `Annotations`, `ArrowKind`, `Circle` types to README (#16)
+
 ## [2.1.0] - 2026-04-16
 
 ### Added
