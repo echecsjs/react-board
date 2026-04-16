@@ -1,6 +1,6 @@
 import { squareCoords } from './utilities.js';
 
-import type { Arrow, ArrowKind } from './types.js';
+import type { Arrow, ArrowKind, Circle } from './types.js';
 import type React from 'react';
 
 const CSS_VAR: Record<ArrowKind, string> = {
@@ -10,23 +10,55 @@ const CSS_VAR: Record<ArrowKind, string> = {
   move: 'var(--board-arrow-move, #15781B)',
 };
 
-interface ArrowOverlayProperties {
+interface AnnotationOverlayProperties {
   arrows: Arrow[];
+  circles?: Circle[];
   orientation: 'black' | 'white';
   squareSize: number;
 }
 
-function ArrowOverlay({
+function AnnotationOverlay({
   arrows,
+  circles = [],
   orientation,
   squareSize,
-}: ArrowOverlayProperties): React.ReactElement | undefined {
-  if (arrows.length === 0) return undefined;
+}: AnnotationOverlayProperties): React.ReactElement | undefined {
+  if (arrows.length === 0 && circles.length === 0) return undefined;
 
   const boardSize = squareSize * 8;
   const shaftWidth = squareSize * 0.2;
   const headWidth = squareSize * 0.55;
   const headLength = squareSize * 0.35;
+
+  // Render circles first (so arrows appear on top)
+  const circleElements: React.ReactElement[] = [];
+  const seenCircles = new Set<string>();
+  for (const circle of circles) {
+    const key = `${circle.square}-${circle.kind}`;
+    if (seenCircles.has(key)) continue;
+    seenCircles.add(key);
+
+    const { col, row } = squareCoords(circle.square, orientation);
+    const cx = (col - 0.5) * squareSize;
+    const cy = (row - 0.5) * squareSize;
+    const r = squareSize * 0.4;
+    const strokeWidth = squareSize * 0.05;
+
+    circleElements.push(
+      <circle
+        key={key}
+        cx={cx}
+        cy={cy}
+        r={r}
+        style={{
+          fill: 'none',
+          opacity: 'var(--board-arrow-opacity, 0.8)' as unknown as number,
+          stroke: CSS_VAR[circle.kind],
+          strokeWidth,
+        }}
+      />,
+    );
+  }
 
   // Deduplicate by from-to-kind, first wins
   const seen = new Set<string>();
@@ -69,7 +101,7 @@ function ArrowOverlay({
 
   return (
     <svg
-      data-arrows
+      data-annotations
       viewBox={`0 0 ${boardSize} ${boardSize}`}
       style={{
         height: '100%',
@@ -79,12 +111,13 @@ function ArrowOverlay({
         width: '100%',
       }}
     >
+      {circleElements}
       {paths}
     </svg>
   );
 }
 
-export default ArrowOverlay;
+export default AnnotationOverlay;
 
 /**
  * Computes an SVG path `d` attribute for an arrow shape.

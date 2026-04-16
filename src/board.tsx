@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import ArrowOverlay from './arrow-overlay.js';
+import AnnotationOverlay from './annotation-overlay.js';
 import { parseFen } from './fen.js';
 import { useAnimation } from './hooks/use-animation.js';
 import { useDrag } from './hooks/use-drag.js';
@@ -439,7 +439,7 @@ function Board({
           {children}
         </div>
       )}
-      <ArrowOverlay
+      <AnnotationOverlay
         arrows={arrows}
         orientation={orientation}
         squareSize={squareSize}

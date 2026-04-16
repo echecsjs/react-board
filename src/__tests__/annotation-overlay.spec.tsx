@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import ArrowOverlay, { arrowPath } from '../arrow-overlay.js';
+import AnnotationOverlay, { arrowPath } from '../annotation-overlay.js';
 
-import type { Arrow } from '../types.js';
+import type { Arrow, Circle } from '../types.js';
 
 describe('arrowPath', () => {
   const SHAFT_WIDTH = 12;
@@ -89,20 +89,20 @@ describe('arrowPath', () => {
   });
 });
 
-describe('ArrowOverlay', () => {
+describe('AnnotationOverlay', () => {
   it('renders nothing when arrows is empty', () => {
     const { container } = render(
-      <ArrowOverlay arrows={[]} orientation="white" squareSize={60} />,
+      <AnnotationOverlay arrows={[]} orientation="white" squareSize={60} />,
     );
     expect(container.querySelector('svg')).toBeNull();
   });
 
-  it('renders an svg with data-arrows attribute', () => {
+  it('renders an svg with data-annotations attribute', () => {
     const arrows: Arrow[] = [{ from: 'e2', to: 'e4', kind: 'move' }];
     const { container } = render(
-      <ArrowOverlay arrows={arrows} orientation="white" squareSize={60} />,
+      <AnnotationOverlay arrows={arrows} orientation="white" squareSize={60} />,
     );
-    const svg = container.querySelector('svg[data-arrows]');
+    const svg = container.querySelector('svg[data-annotations]');
     expect(svg).not.toBeNull();
   });
 
@@ -112,7 +112,7 @@ describe('ArrowOverlay', () => {
       { from: 'f1', to: 'c4', kind: 'alternative' },
     ];
     const { container } = render(
-      <ArrowOverlay arrows={arrows} orientation="white" squareSize={60} />,
+      <AnnotationOverlay arrows={arrows} orientation="white" squareSize={60} />,
     );
     const paths = container.querySelectorAll('path');
     expect(paths).toHaveLength(2);
@@ -124,7 +124,7 @@ describe('ArrowOverlay', () => {
       { from: 'e2', to: 'e4', kind: 'move' },
     ];
     const { container } = render(
-      <ArrowOverlay arrows={arrows} orientation="white" squareSize={60} />,
+      <AnnotationOverlay arrows={arrows} orientation="white" squareSize={60} />,
     );
     const paths = container.querySelectorAll('path');
     expect(paths).toHaveLength(1);
@@ -138,7 +138,7 @@ describe('ArrowOverlay', () => {
       { from: 'g1', to: 'f3', kind: 'alternative' },
     ];
     const { container } = render(
-      <ArrowOverlay arrows={arrows} orientation="white" squareSize={60} />,
+      <AnnotationOverlay arrows={arrows} orientation="white" squareSize={60} />,
     );
     const paths = container.querySelectorAll('path');
     expect(paths[0]!.getAttribute('style')).toContain('--board-arrow-move');
@@ -152,9 +152,100 @@ describe('ArrowOverlay', () => {
   it('sets pointer-events to none on the svg', () => {
     const arrows: Arrow[] = [{ from: 'e2', to: 'e4', kind: 'move' }];
     const { container } = render(
-      <ArrowOverlay arrows={arrows} orientation="white" squareSize={60} />,
+      <AnnotationOverlay arrows={arrows} orientation="white" squareSize={60} />,
     );
     const svg = container.querySelector('svg')!;
     expect(svg.style.pointerEvents).toBe('none');
+  });
+});
+
+describe('AnnotationOverlay circles', () => {
+  it('renders nothing when both arrows and circles are empty', () => {
+    const { container } = render(
+      <AnnotationOverlay
+        arrows={[]}
+        circles={[]}
+        orientation="white"
+        squareSize={60}
+      />,
+    );
+    expect(container.querySelector('svg')).toBeNull();
+  });
+
+  it('renders an svg when only circles are provided', () => {
+    const circles: Circle[] = [{ square: 'e4', kind: 'move' }];
+    const { container } = render(
+      <AnnotationOverlay
+        arrows={[]}
+        circles={circles}
+        orientation="white"
+        squareSize={60}
+      />,
+    );
+    expect(container.querySelector('svg[data-annotations]')).not.toBeNull();
+  });
+
+  it('renders one circle element per circle', () => {
+    const circles: Circle[] = [
+      { square: 'e4', kind: 'move' },
+      { square: 'd5', kind: 'capture' },
+    ];
+    const { container } = render(
+      <AnnotationOverlay
+        arrows={[]}
+        circles={circles}
+        orientation="white"
+        squareSize={60}
+      />,
+    );
+    expect(container.querySelectorAll('circle')).toHaveLength(2);
+  });
+
+  it('deduplicates identical circles', () => {
+    const circles: Circle[] = [
+      { square: 'e4', kind: 'move' },
+      { square: 'e4', kind: 'move' },
+    ];
+    const { container } = render(
+      <AnnotationOverlay
+        arrows={[]}
+        circles={circles}
+        orientation="white"
+        squareSize={60}
+      />,
+    );
+    expect(container.querySelectorAll('circle')).toHaveLength(1);
+  });
+
+  it('applies the correct CSS variable for circle kind', () => {
+    const circles: Circle[] = [{ square: 'e4', kind: 'danger' }];
+    const { container } = render(
+      <AnnotationOverlay
+        arrows={[]}
+        circles={circles}
+        orientation="white"
+        squareSize={60}
+      />,
+    );
+    const circle = container.querySelector('circle')!;
+    expect(circle.getAttribute('style')).toContain('--board-arrow-danger');
+  });
+
+  it('renders circles before arrows in DOM order', () => {
+    const arrows: Arrow[] = [{ from: 'e2', to: 'e4', kind: 'move' }];
+    const circles: Circle[] = [{ square: 'd5', kind: 'capture' }];
+    const { container } = render(
+      <AnnotationOverlay
+        arrows={arrows}
+        circles={circles}
+        orientation="white"
+        squareSize={60}
+      />,
+    );
+    const svg = container.querySelector('svg')!;
+    const children = [...svg.children];
+    const circleIndex = children.findIndex((element) => element.tagName === 'circle');
+    const pathIndex = children.findIndex((element) => element.tagName === 'path');
+    expect(circleIndex).toBeLessThan(pathIndex);
   });
 });
