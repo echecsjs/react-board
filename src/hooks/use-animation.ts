@@ -75,7 +75,7 @@ function useAnimation(
 
     setOffsets(newOffsets);
 
-    const frameId = requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       setOffsets((previous) => {
         const cleared = new Map<Square, AnimationOffset>();
 
@@ -86,10 +86,6 @@ function useAnimation(
         return cleared;
       });
     });
-
-    return () => {
-      cancelAnimationFrame(frameId);
-    };
   }, [animate, orientation, position, squareSize]);
 
   if (!animate) {

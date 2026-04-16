@@ -146,6 +146,69 @@ describe('useAnimation', () => {
     expect(result.current.size).toBe(0);
   });
 
+  it('clears offsets even when parent re-renders before RAF fires', () => {
+    const rafSpy = vi.spyOn(globalThis, 'requestAnimationFrame');
+    const cafSpy = vi.spyOn(globalThis, 'cancelAnimationFrame');
+
+    const pendingCallbacks = new Map<number, FrameRequestCallback>();
+    let nextId = 1;
+
+    rafSpy.mockImplementation((callback) => {
+      const id = nextId++;
+      pendingCallbacks.set(id, callback);
+      return id;
+    });
+
+    cafSpy.mockImplementation((id: number) => {
+      pendingCallbacks.delete(id);
+    });
+
+    const position1 = makePosition([['e2', whitePawn]]);
+    const position2 = makePosition([['e4', whitePawn]]);
+
+    let currentPosition = position1;
+
+    const { result, rerender } = renderHook(() =>
+      useAnimation(
+        currentPosition,
+        60,
+        'white',
+        true,
+        boardReference,
+        dropReference,
+      ),
+    );
+
+    // move the piece — sets non-zero offsets and schedules RAF
+    currentPosition = position2;
+    act(() => {
+      rerender();
+    });
+
+    expect(result.current.get('e4')?.y).toBe(120);
+
+    // parent re-renders with a new position reference (same content)
+    // this triggers effect cleanup which cancels the pending RAF
+    currentPosition = makePosition([['e4', whitePawn]]);
+    act(() => {
+      rerender();
+    });
+
+    // fire all surviving RAF callbacks (cancelled ones were removed)
+    act(() => {
+      for (const [, callback] of pendingCallbacks) callback(0);
+    });
+
+    // offsets must be cleared to zero — the animation should complete
+    const cleared = result.current.get('e4');
+    expect(cleared).toBeDefined();
+    expect(cleared?.x).toBe(0);
+    expect(cleared?.y).toBe(0);
+
+    rafSpy.mockRestore();
+    cafSpy.mockRestore();
+  });
+
   it('handles multiple pieces moving simultaneously', () => {
     const position1 = makePosition([
       ['e2', whitePawn],
