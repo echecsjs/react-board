@@ -194,16 +194,19 @@ squareCoords('e4', 'black'); // { col: 4, row: 4 }
 
 ### Exported types
 
-| Type                   | Description                                                      |
-| ---------------------- | ---------------------------------------------------------------- |
-| `Arrow`                | `{ from: Square; to: Square; brush: string }` — arrow descriptor |
-| `BoardProps`           | All props accepted by `<Board />`                                |
-| `MoveEvent`            | `{ from, to, capture, promotion? }` — passed to `onMove`         |
-| `PieceKey`             | Union of all 12 piece keys (`'wK'`, `'bP'`, …)                   |
-| `PieceSet`             | `Record<PieceKey, string>` — maps piece keys to image URLs       |
-| `PromotionDialogProps` | All props accepted by `<PromotionDialog />`                      |
-| `PromotionPiece`       | `'q' \| 'r' \| 'b' \| 'n'` — promotable piece                    |
-| `SquareCoords`         | `{ col: number; row: number }` — return type of `squareCoords`   |
+| Type                   | Description                                                            |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `Annotations`          | `{ arrows: Arrow[]; circles: Circle[] }` — drawable annotation state   |
+| `Arrow`                | `{ from: Square; to: Square; kind: ArrowKind }` — arrow descriptor     |
+| `ArrowKind`            | `'alternative' \| 'capture' \| 'danger' \| 'move'` — annotation colour |
+| `BoardProps`           | All props accepted by `<Board />`                                      |
+| `Circle`               | `{ square: Square; kind: ArrowKind }` — circle annotation descriptor   |
+| `MoveEvent`            | `{ from, to, capture, promotion? }` — passed to `onMove`               |
+| `PieceKey`             | Union of all 12 piece keys (`'wK'`, `'bP'`, …)                         |
+| `PieceSet`             | `Record<PieceKey, string>` — maps piece keys to image URLs             |
+| `PromotionDialogProps` | All props accepted by `<PromotionDialog />`                            |
+| `PromotionPiece`       | `'q' \| 'r' \| 'b' \| 'n'` — promotable piece                          |
+| `SquareCoords`         | `{ col: number; row: number }` — return type of `squareCoords`         |
 
 ## License
 
