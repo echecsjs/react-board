@@ -14,6 +14,8 @@ import type {
   Arrow,
   BoardProps as BoardProperties,
   MoveEvent,
+  PieceKey,
+  PieceSet,
 } from '../types.js';
 import type { Piece, Square } from '@echecs/position';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -168,6 +170,36 @@ export const DarkTheme: Story = {
       </div>
     ),
   ],
+};
+
+// -- Custom pieces: use any piece set via the `pieces` prop ---
+
+const PIECE_KEYS: PieceKey[] = [
+  'bB',
+  'bK',
+  'bN',
+  'bP',
+  'bQ',
+  'bR',
+  'wB',
+  'wK',
+  'wN',
+  'wP',
+  'wQ',
+  'wR',
+];
+
+const MERIDA_PIECES: PieceSet = Object.fromEntries(
+  PIECE_KEYS.map((key) => [
+    key,
+    `https://raw.githubusercontent.com/lichess-org/lila/master/public/piece/merida/${key}.svg`,
+  ]),
+) as PieceSet;
+
+export const CustomPieces: Story = {
+  args: {
+    pieces: MERIDA_PIECES,
+  },
 };
 
 // -- Custom arrow colors via CSS variables ---
