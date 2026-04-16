@@ -15,6 +15,7 @@ interface DragState {
 
 interface UseDragOptions {
   boardRef: React.RefObject<HTMLDivElement | null>;
+  clearAnnotations?: () => void;
   interactive: boolean;
   legalMoves?: Map<Square, Square[]>;
   onMove?: (move: MoveEvent) => boolean;
@@ -98,6 +99,7 @@ const DRAG_THRESHOLD = 4;
 
 function useDrag({
   boardRef,
+  clearAnnotations,
   interactive,
   legalMoves,
   onMove,
@@ -163,6 +165,14 @@ function useDrag({
         return;
       }
 
+      // Only handle left-click for piece movement
+      if (event.button !== 0) {
+        return;
+      }
+
+      // Clear any user-drawn annotations on left-click
+      clearAnnotations?.();
+
       const rect = boardRef.current.getBoundingClientRect();
       const square = getSquareFromPointer(
         event.clientX,
@@ -192,7 +202,15 @@ function useDrag({
         setDragState({ floating: undefined, from: square, isDragging: false });
       }
     },
-    [boardRef, interactive, orientation, pieces, squareSize, turnColor],
+    [
+      boardRef,
+      clearAnnotations,
+      interactive,
+      orientation,
+      pieces,
+      squareSize,
+      turnColor,
+    ],
   );
 
   const onPointerMove = useCallback(
