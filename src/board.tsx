@@ -4,6 +4,7 @@ import AnnotationOverlay from './annotation-overlay.js';
 import { parseFen } from './fen.js';
 import { useAnimation } from './hooks/use-animation.js';
 import { useDrag } from './hooks/use-drag.js';
+import { useDrawing } from './hooks/use-drawing.js';
 import { DEFAULT_PIECES } from './pieces/index.js';
 import { SQUARES, squareColor, squareCoords } from './utilities.js';
 
@@ -17,15 +18,32 @@ function Board({
   arrows = [],
   children,
   coordinates = true,
+  drawable = false,
   highlight: highlightSquares = [],
-  interactive = true,
+  interactive,
   legalMoves,
+  movable,
+  onAnnotationChange,
   onMove,
   orientation = 'white',
   pieces = DEFAULT_PIECES,
   position,
   turn,
 }: BoardProperties): React.JSX.Element {
+  // Resolve movable/interactive precedence
+  let isMovable: boolean;
+  if (movable !== undefined) {
+    isMovable = movable;
+  } else if (interactive === undefined) {
+    isMovable = false;
+  } else {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(
+        '[@echecs/react-board] `interactive` is deprecated. Use `movable` instead.',
+      );
+    }
+    isMovable = interactive;
+  }
   const containerReference = useRef<HTMLDivElement>(null);
   const [squareSize, setSquareSize] = useState(60);
 
@@ -60,9 +78,22 @@ function Board({
         ? parseFen(position)
         : position;
 
+  const {
+    annotations: userAnnotations,
+    clearAnnotations,
+    handlers: drawHandlers,
+  } = useDrawing({
+    boardRef: containerReference,
+    drawable,
+    onAnnotationChange,
+    orientation,
+    squareSize,
+  });
+
   const { dragState, dropRef, handlers, selectedSquare } = useDrag({
     boardRef: containerReference,
-    interactive,
+    clearAnnotations,
+    interactive: isMovable,
     legalMoves,
     onMove,
     orientation,
@@ -80,17 +111,17 @@ function Board({
     dropRef,
   );
 
-  // Legal dots: when interactive and a square is selected, show only its legal targets.
-  // When interactive=false, show all legalTargets from the prop directly.
+  // Legal dots: when isMovable and a square is selected, show only its legal targets.
+  // When isMovable=false, show all legalTargets from the prop directly.
   const legalTargets = new Set<string>();
 
-  if (!interactive && legalMoves) {
+  if (!isMovable && legalMoves) {
     for (const targets of legalMoves.values()) {
       for (const sq of targets) {
         legalTargets.add(sq);
       }
     }
-  } else if (interactive && selectedSquare && legalMoves) {
+  } else if (isMovable && selectedSquare && legalMoves) {
     const targets = legalMoves.get(selectedSquare);
 
     if (targets) {
@@ -98,7 +129,7 @@ function Board({
         legalTargets.add(sq);
       }
     }
-  } else if (interactive && dragState.from && legalMoves) {
+  } else if (isMovable && dragState.from && legalMoves) {
     const targets = legalMoves.get(dragState.from);
 
     if (targets) {
@@ -161,14 +192,24 @@ function Board({
 
   return (
     <div ref={containerReference} style={rootStyle}>
-      {interactive ? (
+      {isMovable ? (
         <div
           data-board-grid
+          onContextMenu={drawHandlers.onContextMenu}
           onDragStart={(event) => event.preventDefault()}
+          onPointerDown={(event) => {
+            handlers.onPointerDown(event);
+            drawHandlers.onPointerDown(event);
+          }}
+          onPointerMove={(event) => {
+            handlers.onPointerMove(event);
+            drawHandlers.onPointerMove(event);
+          }}
+          onPointerUp={(event) => {
+            handlers.onPointerUp(event);
+            drawHandlers.onPointerUp(event);
+          }}
           style={gridStyle}
-          onPointerDown={handlers.onPointerDown}
-          onPointerMove={handlers.onPointerMove}
-          onPointerUp={handlers.onPointerUp}
         >
           {SQUARES.map((square) => {
             const color = squareColor(square);
@@ -309,7 +350,13 @@ function Board({
           {children}
         </div>
       ) : (
-        <div style={gridStyle}>
+        <div
+          onContextMenu={drawable ? drawHandlers.onContextMenu : undefined}
+          onPointerDown={drawable ? drawHandlers.onPointerDown : undefined}
+          onPointerMove={drawable ? drawHandlers.onPointerMove : undefined}
+          onPointerUp={drawable ? drawHandlers.onPointerUp : undefined}
+          style={gridStyle}
+        >
           {SQUARES.map((square) => {
             const color = squareColor(square);
             const coords = squareCoords(square, orientation);
@@ -440,7 +487,8 @@ function Board({
         </div>
       )}
       <AnnotationOverlay
-        arrows={arrows}
+        arrows={[...arrows, ...userAnnotations.arrows]}
+        circles={userAnnotations.circles}
         orientation={orientation}
         squareSize={squareSize}
       />

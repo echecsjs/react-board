@@ -192,7 +192,7 @@ describe('Board', () => {
 
   it('renders children inside the board grid', () => {
     const { container } = render(
-      <Board>
+      <Board movable>
         <div data-testid="custom-overlay" style={{ gridColumn: 5, gridRow: 1 }}>
           overlay
         </div>
@@ -226,7 +226,7 @@ describe('interaction', () => {
   it('calls onMove when a piece is dragged to a new square', () => {
     const onMove = vi.fn(() => true);
     // Starting position: white pawn on e2 (col 5, row 7 in white orientation → 5*60-30=270, 7*60-30=390)
-    const { container } = render(<Board onMove={onMove} />);
+    const { container } = render(<Board movable onMove={onMove} />);
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
     // e2 center: col=5, row=7 → x=(4+0.5)*60=270, y=(6+0.5)*60=390
@@ -253,7 +253,7 @@ describe('interaction', () => {
   });
 
   it('selects a piece on click', () => {
-    const { container } = render(<Board />);
+    const { container } = render(<Board movable />);
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
     // Click e2 (pawn): pointerDown + pointerUp at same spot
@@ -269,7 +269,7 @@ describe('interaction', () => {
     const onMove = vi.fn(() => true);
     const legalMoves = new Map([['e2', ['e3', 'e4']]]) as Map<Square, Square[]>;
     const { container } = render(
-      <Board legalMoves={legalMoves} onMove={onMove} />,
+      <Board movable legalMoves={legalMoves} onMove={onMove} />,
     );
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
@@ -289,7 +289,7 @@ describe('interaction', () => {
   });
 
   it('deselects on clicking the same piece', () => {
-    const { container } = render(<Board />);
+    const { container } = render(<Board movable />);
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
     // Select e2
@@ -306,7 +306,7 @@ describe('interaction', () => {
 
   it('shows legal move dots during selection when legalMoves provided', () => {
     const legalMoves = new Map([['e2', ['e3', 'e4']]]) as Map<Square, Square[]>;
-    const { container } = render(<Board legalMoves={legalMoves} />);
+    const { container } = render(<Board movable legalMoves={legalMoves} />);
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
     // Before selection: no dots
@@ -331,7 +331,7 @@ describe('interaction', () => {
     const onMove = vi.fn(() => true);
     const legalMoves = new Map([['e2', ['e3', 'e4']]]) as Map<Square, Square[]>;
     const { container } = render(
-      <Board legalMoves={legalMoves} onMove={onMove} />,
+      <Board movable legalMoves={legalMoves} onMove={onMove} />,
     );
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
@@ -348,7 +348,7 @@ describe('interaction', () => {
   });
 
   it('renders a floating piece while dragging', () => {
-    const { container } = render(<Board />);
+    const { container } = render(<Board movable />);
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
     fireEvent.pointerDown(grid, { clientX: 270, clientY: 390, pointerId: 1 });
@@ -358,7 +358,7 @@ describe('interaction', () => {
   });
 
   it('prevents selecting a piece of the wrong color when turn is set', () => {
-    const { container } = render(<Board turn="white" />);
+    const { container } = render(<Board movable turn="white" />);
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
     // Try to click-select a black pawn on e7
@@ -371,7 +371,7 @@ describe('interaction', () => {
   });
 
   it('allows selecting a piece of the correct color when turn is set', () => {
-    const { container } = render(<Board turn="white" />);
+    const { container } = render(<Board movable turn="white" />);
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
     // Click-select a white pawn on e2
@@ -384,7 +384,9 @@ describe('interaction', () => {
 
   it('prevents dragging a piece of the wrong color when turn is set', () => {
     const onMove = vi.fn(() => true);
-    const { container } = render(<Board turn="white" onMove={onMove} />);
+    const { container } = render(
+      <Board movable turn="white" onMove={onMove} />,
+    );
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
     // Try to drag black pawn from e7 to e5
@@ -396,7 +398,7 @@ describe('interaction', () => {
   });
 
   it('allows any piece when turn is not set', () => {
-    const { container } = render(<Board />);
+    const { container } = render(<Board movable />);
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
     // Select a black pawn on e7 — should work without turn restriction
@@ -408,7 +410,7 @@ describe('interaction', () => {
   });
 
   it('does not re-select a wrong-color piece during click-to-move', () => {
-    const { container } = render(<Board turn="white" />);
+    const { container } = render(<Board movable turn="white" />);
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
 
     // Select white pawn on e2
