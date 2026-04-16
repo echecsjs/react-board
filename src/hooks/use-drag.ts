@@ -45,6 +45,7 @@ interface UseDragResult {
 }
 
 interface PointerDownInfo {
+  pointerType: string;
   square: Square;
   x: number;
   y: number;
@@ -95,7 +96,8 @@ function getSquareFromPointer(
   return coordsToSquare(col, row, orientation);
 }
 
-const DRAG_THRESHOLD = 4;
+const DRAG_THRESHOLD_MOUSE = 4;
+const DRAG_THRESHOLD_TOUCH = 10;
 
 function useDrag({
   boardRef,
@@ -191,6 +193,7 @@ function useDrag({
       // Always track the pointer-down square so onPointerUp can handle
       // click-to-move targets (even on empty squares).
       pointerDownReference.current = {
+        pointerType: event.pointerType,
         square,
         x: event.clientX,
         y: event.clientY,
@@ -219,12 +222,14 @@ function useDrag({
         return;
       }
 
-      const { x, y } = pointerDownReference.current;
+      const { pointerType, x, y } = pointerDownReference.current;
       const dx = event.clientX - x;
       const dy = event.clientY - y;
       const distance = Math.hypot(dx, dy);
+      const threshold =
+        pointerType === 'touch' ? DRAG_THRESHOLD_TOUCH : DRAG_THRESHOLD_MOUSE;
 
-      if (distance >= DRAG_THRESHOLD) {
+      if (distance >= threshold) {
         setDragState((previous) => ({
           ...previous,
           floating: { x: event.clientX, y: event.clientY },
@@ -242,6 +247,7 @@ function useDrag({
       }
 
       const {
+        pointerType,
         square: downSquare,
         x: downX,
         y: downY,
@@ -251,7 +257,9 @@ function useDrag({
       const dx = event.clientX - downX;
       const dy = event.clientY - downY;
       const distance = Math.hypot(dx, dy);
-      const isClick = distance < DRAG_THRESHOLD;
+      const threshold =
+        pointerType === 'touch' ? DRAG_THRESHOLD_TOUCH : DRAG_THRESHOLD_MOUSE;
+      const isClick = distance < threshold;
 
       // Clear drag state
       setDragState({ floating: undefined, from: undefined, isDragging: false });
