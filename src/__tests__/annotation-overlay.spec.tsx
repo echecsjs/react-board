@@ -244,8 +244,12 @@ describe('AnnotationOverlay circles', () => {
     );
     const svg = container.querySelector('svg')!;
     const children = [...svg.children];
-    const circleIndex = children.findIndex((element) => element.tagName === 'circle');
-    const pathIndex = children.findIndex((element) => element.tagName === 'path');
+    const circleIndex = children.findIndex(
+      (element) => element.tagName === 'circle',
+    );
+    const pathIndex = children.findIndex(
+      (element) => element.tagName === 'path',
+    );
     expect(circleIndex).toBeLessThan(pathIndex);
   });
 });
