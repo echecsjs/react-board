@@ -409,6 +409,74 @@ describe('interaction', () => {
     expect(squareE7?.querySelector('[data-selected]')).toBeTruthy();
   });
 
+  it('treats 5px movement as drag for mouse pointer', () => {
+    const onMove = vi.fn(() => true);
+    const { container } = render(<Board movable onMove={onMove} />);
+    const grid = container.querySelector('[data-board-grid]') as HTMLElement;
+
+    // e2 center: x=270, y=390. Move 5px (above 4px mouse threshold)
+    fireEvent.pointerDown(grid, {
+      clientX: 270,
+      clientY: 390,
+      pointerId: 1,
+      pointerType: 'mouse',
+    });
+    fireEvent.pointerMove(grid, {
+      clientX: 275,
+      clientY: 390,
+      pointerId: 1,
+      pointerType: 'mouse',
+    });
+
+    // Ghost piece should appear (drag started)
+    expect(container.querySelector('[data-ghost]')).toBeTruthy();
+  });
+
+  it('treats 5px movement as click for touch pointer', () => {
+    const { container } = render(<Board movable />);
+    const grid = container.querySelector('[data-board-grid]') as HTMLElement;
+
+    // e2 center: x=270, y=390. Move 5px (below 10px touch threshold)
+    fireEvent.pointerDown(grid, {
+      clientX: 270,
+      clientY: 390,
+      pointerId: 1,
+      pointerType: 'touch',
+    });
+    fireEvent.pointerMove(grid, {
+      clientX: 275,
+      clientY: 390,
+      pointerId: 1,
+      pointerType: 'touch',
+    });
+
+    // No ghost — still counted as a tap, not a drag
+    expect(container.querySelector('[data-ghost]')).toBeFalsy();
+  });
+
+  it('treats 11px movement as drag for touch pointer', () => {
+    const onMove = vi.fn(() => true);
+    const { container } = render(<Board movable onMove={onMove} />);
+    const grid = container.querySelector('[data-board-grid]') as HTMLElement;
+
+    // e2 center: x=270, y=390. Move 11px (above 10px touch threshold)
+    fireEvent.pointerDown(grid, {
+      clientX: 270,
+      clientY: 390,
+      pointerId: 1,
+      pointerType: 'touch',
+    });
+    fireEvent.pointerMove(grid, {
+      clientX: 281,
+      clientY: 390,
+      pointerId: 1,
+      pointerType: 'touch',
+    });
+
+    // Ghost piece should appear (drag started)
+    expect(container.querySelector('[data-ghost]')).toBeTruthy();
+  });
+
   it('does not re-select a wrong-color piece during click-to-move', () => {
     const { container } = render(<Board movable turn="white" />);
     const grid = container.querySelector('[data-board-grid]') as HTMLElement;
