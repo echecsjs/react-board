@@ -190,302 +190,172 @@ function Board({
         }
       : undefined;
 
+  const gridHandlers: Record<string, React.EventHandler<React.SyntheticEvent> | undefined> = {};
+
+  if (isMovable) {
+    gridHandlers.onDragStart = (event: React.SyntheticEvent) => event.preventDefault();
+    gridHandlers.onPointerDown = (event: React.PointerEvent) => {
+      handlers.onPointerDown(event);
+      drawHandlers.onPointerDown(event);
+    };
+    gridHandlers.onPointerMove = (event: React.PointerEvent) => {
+      handlers.onPointerMove(event);
+      drawHandlers.onPointerMove(event);
+    };
+    gridHandlers.onPointerUp = (event: React.PointerEvent) => {
+      handlers.onPointerUp(event);
+      drawHandlers.onPointerUp(event);
+    };
+    gridHandlers.onContextMenu = drawHandlers.onContextMenu;
+  } else if (drawable) {
+    gridHandlers.onContextMenu = drawHandlers.onContextMenu;
+    gridHandlers.onPointerDown = drawHandlers.onPointerDown;
+    gridHandlers.onPointerMove = drawHandlers.onPointerMove;
+    gridHandlers.onPointerUp = drawHandlers.onPointerUp;
+  }
+
   return (
     <div ref={containerReference} style={rootStyle}>
-      {isMovable ? (
-        <div
-          data-board-grid
-          onContextMenu={drawHandlers.onContextMenu}
-          onDragStart={(event) => event.preventDefault()}
-          onPointerDown={(event) => {
-            handlers.onPointerDown(event);
-            drawHandlers.onPointerDown(event);
-          }}
-          onPointerMove={(event) => {
-            handlers.onPointerMove(event);
-            drawHandlers.onPointerMove(event);
-          }}
-          onPointerUp={(event) => {
-            handlers.onPointerUp(event);
-            drawHandlers.onPointerUp(event);
-          }}
-          style={gridStyle}
-        >
-          {SQUARES.map((square) => {
-            const color = squareColor(square);
-            const coords = squareCoords(square, orientation);
-            const piece = positionMap.get(square);
-            const isHighlighted = highlightSet.has(square);
-            const hasLegalDot = legalTargets.has(square);
-            const isSelected = selectedSquare === square;
-            // Hide piece on source square while dragging
-            const hidePiece = dragState.isDragging && dragState.from === square;
+      <div
+        data-board-grid={isMovable || undefined}
+        style={gridStyle}
+        {...gridHandlers}
+      >
+        {SQUARES.map((square) => {
+          const color = squareColor(square);
+          const coords = squareCoords(square, orientation);
+          const piece = positionMap.get(square);
+          const isHighlighted = highlightSet.has(square);
+          const hasLegalDot = legalTargets.has(square);
+          const isSelected = isMovable && selectedSquare === square;
+          const hidePiece = isMovable && dragState.isDragging && dragState.from === square;
 
-            // Coordinate visibility: rank label on a-file, file label on rank 1
-            const file = square[0];
-            const rank = square[1];
+          const file = square[0];
+          const rank = square[1];
 
-            const showRankCoord =
-              coordinates &&
-              (orientation === 'white' ? file === 'a' : file === 'h');
-            const showFileCoord =
-              coordinates &&
-              (orientation === 'white' ? rank === '1' : rank === '8');
+          const showRankCoord =
+            coordinates &&
+            (orientation === 'white' ? file === 'a' : file === 'h');
+          const showFileCoord =
+            coordinates &&
+            (orientation === 'white' ? rank === '1' : rank === '8');
 
-            const squareStyle: React.CSSProperties = {
-              background:
-                color === 'dark'
-                  ? 'var(--board-dark-square, #779952)'
-                  : 'var(--board-light-square, #edeed1)',
-              gridColumn: String(coords.col),
-              gridRow: String(coords.row),
+          const squareStyle: React.CSSProperties = {
+            background:
+              color === 'dark'
+                ? 'var(--board-dark-square, #779952)'
+                : 'var(--board-light-square, #edeed1)',
+            gridColumn: String(coords.col),
+            gridRow: String(coords.row),
+            position: 'relative',
+          };
 
-              position: 'relative',
-            };
+          const rankCoordStyle: React.CSSProperties = {
+            color:
+              color === 'light'
+                ? 'var(--board-coordinate-on-light, #779952)'
+                : 'var(--board-coordinate-on-dark, #edeed1)',
+            fontSize: `${squareSize * 0.15}px`,
+            fontWeight: 'var(--board-coordinate-weight, 600)',
+            left: '2px',
+            lineHeight: 1,
+            pointerEvents: 'none',
+            position: 'absolute',
+            top: '2px',
+            userSelect: 'none',
+          };
 
-            const rankCoordStyle: React.CSSProperties = {
-              color:
-                color === 'light'
-                  ? 'var(--board-coordinate-on-light, #779952)'
-                  : 'var(--board-coordinate-on-dark, #edeed1)',
-              fontSize: `${squareSize * 0.15}px`,
-              fontWeight: 'var(--board-coordinate-weight, 600)',
-              left: '2px',
-              lineHeight: 1,
-              pointerEvents: 'none',
-              position: 'absolute',
-              top: '2px',
-              userSelect: 'none',
-            };
+          const fileCoordStyle: React.CSSProperties = {
+            bottom: '2px',
+            color:
+              color === 'light'
+                ? 'var(--board-coordinate-on-light, #779952)'
+                : 'var(--board-coordinate-on-dark, #edeed1)',
+            fontSize: `${squareSize * 0.15}px`,
+            fontWeight: 'var(--board-coordinate-weight, 600)',
+            lineHeight: 1,
+            pointerEvents: 'none',
+            position: 'absolute',
+            right: '2px',
+            userSelect: 'none',
+          };
 
-            const fileCoordStyle: React.CSSProperties = {
-              bottom: '2px',
-              color:
-                color === 'light'
-                  ? 'var(--board-coordinate-on-light, #779952)'
-                  : 'var(--board-coordinate-on-dark, #edeed1)',
-              fontSize: `${squareSize * 0.15}px`,
-              fontWeight: 'var(--board-coordinate-weight, 600)',
-              lineHeight: 1,
-              pointerEvents: 'none',
-              position: 'absolute',
-              right: '2px',
-              userSelect: 'none',
-            };
+          const highlightStyle: React.CSSProperties = {
+            background: 'var(--board-highlight, rgba(255, 255, 0, 0.4))',
+            height: '100%',
+            inset: 0,
+            position: 'absolute',
+            width: '100%',
+          };
 
-            const highlightStyle: React.CSSProperties = {
-              background: 'var(--board-highlight, rgba(255, 255, 0, 0.4))',
-              height: '100%',
-              inset: 0,
-              position: 'absolute',
-              width: '100%',
-            };
+          const legalDotStyle: React.CSSProperties = {
+            background: 'var(--board-legal-dot, rgba(0, 0, 0, 0.2))',
+            borderRadius: '50%',
+            height: '30%',
+            left: '50%',
+            position: 'absolute',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '30%',
+          };
 
-            const legalDotStyle: React.CSSProperties = {
-              background: 'var(--board-legal-dot, rgba(0, 0, 0, 0.2))',
-              borderRadius: '50%',
-              height: '30%',
-              left: '50%',
-              position: 'absolute',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '30%',
-            };
+          let pieceImage: string | undefined;
 
-            let pieceImage: string | undefined;
+          if (piece && !hidePiece) {
+            const key: PieceKey =
+              `${piece.color}${piece.type.toUpperCase()}` as PieceKey;
+            pieceImage = pieces[key];
+          }
 
-            if (piece && !hidePiece) {
-              const key: PieceKey =
-                `${piece.color}${piece.type.toUpperCase()}` as PieceKey;
-              pieceImage = pieces[key];
-            }
+          const animOffset = animationOffsets.get(square);
+          const pieceStyle: React.CSSProperties | undefined = pieceImage
+            ? {
+                backgroundImage: `url("${pieceImage}")`,
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'contain',
+                height: '100%',
+                position: 'relative',
+                width: '100%',
+                zIndex: 1,
+                ...(animOffset
+                  ? {
+                      transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
+                      transition:
+                        animOffset.x !== 0 || animOffset.y !== 0
+                          ? 'none'
+                          : 'var(--board-piece-transition, transform 200ms ease)',
+                    }
+                  : undefined),
+              }
+            : undefined;
 
-            const animOffset = animationOffsets.get(square);
-            const pieceStyle: React.CSSProperties | undefined = pieceImage
-              ? {
-                  backgroundImage: `url("${pieceImage}")`,
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'contain',
-                  height: '100%',
-                  position: 'relative',
-                  width: '100%',
-                  zIndex: 1,
-                  ...(animOffset
-                    ? {
-                        transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
-                        transition:
-                          animOffset.x !== 0 || animOffset.y !== 0
-                            ? 'none'
-                            : 'var(--board-piece-transition, transform 200ms ease)',
-                      }
-                    : undefined),
-                }
-              : undefined;
-
-            return (
-              <div data-square={square} key={square} style={squareStyle}>
-                {(isHighlighted || isSelected) && (
-                  <div
-                    data-highlight={isHighlighted || undefined}
-                    data-selected={isSelected || undefined}
-                    style={highlightStyle}
-                  />
-                )}
-                {pieceStyle && <div data-piece style={pieceStyle} />}
-                {hasLegalDot && <div data-legal-dot style={legalDotStyle} />}
-                {showRankCoord && (
-                  <span data-coordinate="rank" style={rankCoordStyle}>
-                    {rank}
-                  </span>
-                )}
-                {showFileCoord && (
-                  <span data-coordinate="file" style={fileCoordStyle}>
-                    {file}
-                  </span>
-                )}
-              </div>
-            );
-          })}
-          {children}
-        </div>
-      ) : (
-        <div
-          onContextMenu={drawable ? drawHandlers.onContextMenu : undefined}
-          onPointerDown={drawable ? drawHandlers.onPointerDown : undefined}
-          onPointerMove={drawable ? drawHandlers.onPointerMove : undefined}
-          onPointerUp={drawable ? drawHandlers.onPointerUp : undefined}
-          style={gridStyle}
-        >
-          {SQUARES.map((square) => {
-            const color = squareColor(square);
-            const coords = squareCoords(square, orientation);
-            const piece = positionMap.get(square);
-            const isHighlighted = highlightSet.has(square);
-            const hasLegalDot = legalTargets.has(square);
-
-            const file = square[0];
-            const rank = square[1];
-
-            const showRankCoord =
-              coordinates &&
-              (orientation === 'white' ? file === 'a' : file === 'h');
-            const showFileCoord =
-              coordinates &&
-              (orientation === 'white' ? rank === '1' : rank === '8');
-
-            const squareStyle: React.CSSProperties = {
-              background:
-                color === 'dark'
-                  ? 'var(--board-dark-square, #779952)'
-                  : 'var(--board-light-square, #edeed1)',
-              gridColumn: String(coords.col),
-              gridRow: String(coords.row),
-
-              position: 'relative',
-            };
-
-            const rankCoordStyle: React.CSSProperties = {
-              color:
-                color === 'light'
-                  ? 'var(--board-coordinate-on-light, #779952)'
-                  : 'var(--board-coordinate-on-dark, #edeed1)',
-              fontSize: `${squareSize * 0.15}px`,
-              fontWeight: 'var(--board-coordinate-weight, 600)',
-              left: '2px',
-              lineHeight: 1,
-              pointerEvents: 'none',
-              position: 'absolute',
-              top: '2px',
-              userSelect: 'none',
-            };
-
-            const fileCoordStyle: React.CSSProperties = {
-              bottom: '2px',
-              color:
-                color === 'light'
-                  ? 'var(--board-coordinate-on-light, #779952)'
-                  : 'var(--board-coordinate-on-dark, #edeed1)',
-              fontSize: `${squareSize * 0.15}px`,
-              fontWeight: 'var(--board-coordinate-weight, 600)',
-              lineHeight: 1,
-              pointerEvents: 'none',
-              position: 'absolute',
-              right: '2px',
-              userSelect: 'none',
-            };
-
-            const highlightStyle: React.CSSProperties = {
-              background: 'var(--board-highlight, rgba(255, 255, 0, 0.4))',
-              height: '100%',
-              inset: 0,
-              position: 'absolute',
-              width: '100%',
-            };
-
-            const legalDotStyle: React.CSSProperties = {
-              background: 'var(--board-legal-dot, rgba(0, 0, 0, 0.2))',
-              borderRadius: '50%',
-              height: '30%',
-              left: '50%',
-              position: 'absolute',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '30%',
-            };
-
-            let pieceImage: string | undefined;
-
-            if (piece) {
-              const key: PieceKey =
-                `${piece.color}${piece.type.toUpperCase()}` as PieceKey;
-              pieceImage = pieces[key];
-            }
-
-            const animOffset = animationOffsets.get(square);
-            const pieceStyle: React.CSSProperties | undefined = pieceImage
-              ? {
-                  backgroundImage: `url("${pieceImage}")`,
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'contain',
-                  height: '100%',
-                  position: 'relative',
-                  width: '100%',
-                  zIndex: 1,
-                  ...(animOffset
-                    ? {
-                        transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
-                        transition:
-                          animOffset.x !== 0 || animOffset.y !== 0
-                            ? 'none'
-                            : 'var(--board-piece-transition, transform 200ms ease)',
-                      }
-                    : undefined),
-                }
-              : undefined;
-
-            return (
-              <div data-square={square} key={square} style={squareStyle}>
-                {isHighlighted && <div data-highlight style={highlightStyle} />}
-                {pieceStyle && <div data-piece style={pieceStyle} />}
-                {hasLegalDot && <div data-legal-dot style={legalDotStyle} />}
-                {showRankCoord && (
-                  <span data-coordinate="rank" style={rankCoordStyle}>
-                    {rank}
-                  </span>
-                )}
-                {showFileCoord && (
-                  <span data-coordinate="file" style={fileCoordStyle}>
-                    {file}
-                  </span>
-                )}
-              </div>
-            );
-          })}
-          {children}
-        </div>
-      )}
+          return (
+            <div data-square={square} key={square} style={squareStyle}>
+              {(isHighlighted || isSelected) && (
+                <div
+                  data-highlight={isHighlighted || undefined}
+                  data-selected={isSelected || undefined}
+                  style={highlightStyle}
+                />
+              )}
+              {pieceStyle && <div data-piece style={pieceStyle} />}
+              {hasLegalDot && <div data-legal-dot style={legalDotStyle} />}
+              {showRankCoord && (
+                <span data-coordinate="rank" style={rankCoordStyle}>
+                  {rank}
+                </span>
+              )}
+              {showFileCoord && (
+                <span data-coordinate="file" style={fileCoordStyle}>
+                  {file}
+                </span>
+              )}
+            </div>
+          );
+        })}
+        {children}
+      </div>
       <AnnotationOverlay
         arrows={[...arrows, ...userAnnotations.arrows]}
         circles={userAnnotations.circles}
