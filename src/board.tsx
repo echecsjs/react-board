@@ -190,10 +190,14 @@ function Board({
         }
       : undefined;
 
-  const gridHandlers: Record<string, React.EventHandler<React.SyntheticEvent> | undefined> = {};
+  const gridHandlers: Record<
+    string,
+    React.EventHandler<React.SyntheticEvent> | undefined
+  > = {};
 
   if (isMovable) {
-    gridHandlers.onDragStart = (event: React.SyntheticEvent) => event.preventDefault();
+    gridHandlers.onDragStart = (event: React.SyntheticEvent) =>
+      event.preventDefault();
     gridHandlers.onPointerDown = (event: React.PointerEvent) => {
       handlers.onPointerDown(event);
       drawHandlers.onPointerDown(event);
@@ -228,7 +232,8 @@ function Board({
           const isHighlighted = highlightSet.has(square);
           const hasLegalDot = legalTargets.has(square);
           const isSelected = isMovable && selectedSquare === square;
-          const hidePiece = isMovable && dragState.isDragging && dragState.from === square;
+          const hidePiece =
+            isMovable && dragState.isDragging && dragState.from === square;
 
           const file = square[0];
           const rank = square[1];

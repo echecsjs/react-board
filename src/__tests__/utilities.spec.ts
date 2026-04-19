@@ -156,12 +156,16 @@ describe('getSquareFromPointer', () => {
   });
 
   it('returns h1 for bottom-right click in white orientation', () => {
-    expect(getSquareFromPointer(475, 475, rect, squareSize, 'white')).toBe('h1');
+    expect(getSquareFromPointer(475, 475, rect, squareSize, 'white')).toBe(
+      'h1',
+    );
   });
 
   it('returns e2 for center of e2 square in white orientation', () => {
     // e2: col=4 (0-based), row=6 (0-based) → x=270, y=390
-    expect(getSquareFromPointer(270, 390, rect, squareSize, 'white')).toBe('e2');
+    expect(getSquareFromPointer(270, 390, rect, squareSize, 'white')).toBe(
+      'e2',
+    );
   });
 
   it('returns h8 for top-left click in black orientation', () => {
@@ -169,16 +173,22 @@ describe('getSquareFromPointer', () => {
   });
 
   it('returns undefined for click outside the board', () => {
-    expect(getSquareFromPointer(-5, 5, rect, squareSize, 'white')).toBeUndefined();
+    expect(
+      getSquareFromPointer(-5, 5, rect, squareSize, 'white'),
+    ).toBeUndefined();
   });
 
   it('returns undefined for click below the board', () => {
-    expect(getSquareFromPointer(5, 490, rect, squareSize, 'white')).toBeUndefined();
+    expect(
+      getSquareFromPointer(5, 490, rect, squareSize, 'white'),
+    ).toBeUndefined();
   });
 
   it('handles board offset correctly', () => {
     const offsetRect = new DOMRect(100, 50, 480, 480);
     // a8 top-left corner: clientX=100, clientY=50
-    expect(getSquareFromPointer(105, 55, offsetRect, squareSize, 'white')).toBe('a8');
+    expect(getSquareFromPointer(105, 55, offsetRect, squareSize, 'white')).toBe(
+      'a8',
+    );
   });
 });

@@ -172,5 +172,13 @@ function getSquareFromPointer(
   return coordsToSquare(col, row, orientation);
 }
 
-export { diffPositions, FILES, getSquareFromPointer, RANKS, SQUARES, squareColor, squareCoords };
+export {
+  diffPositions,
+  FILES,
+  getSquareFromPointer,
+  RANKS,
+  SQUARES,
+  squareColor,
+  squareCoords,
+};
 export type { PieceDelta, SquareCoords };

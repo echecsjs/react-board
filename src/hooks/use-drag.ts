@@ -50,7 +50,6 @@ interface PointerDownInfo {
   y: number;
 }
 
-
 const DRAG_THRESHOLD_MOUSE = 4;
 const DRAG_THRESHOLD_TOUCH = 10;
 
