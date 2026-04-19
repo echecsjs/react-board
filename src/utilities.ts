@@ -127,5 +127,5 @@ function diffPositions(
   return deltas;
 }
 
-export { diffPositions, SQUARES, squareColor, squareCoords };
+export { diffPositions, FILES, RANKS, SQUARES, squareColor, squareCoords };
 export type { PieceDelta, SquareCoords };
