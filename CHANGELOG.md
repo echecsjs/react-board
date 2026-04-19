@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.2] - 2026-04-19
+
+### Fixed
+
+- inline `width: 100%` on the board root preventing square rendering in
+  height-constrained layouts (flex rows, grid columns) — the board now uses only
+  `aspect-ratio: 1/1` and lets the parent control sizing (#18)
+
 ## [2.1.1] - 2026-04-16
 
 ### Fixed
