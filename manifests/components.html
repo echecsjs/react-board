@@ -816,7 +816,60 @@ function diffPositions(
   return deltas;
 }
 
-export { diffPositions, SQUARES, squareColor, squareCoords };
+function coordsToSquare(
+  col: number,
+  row: number,
+  orientation: &#39;black&#39; | &#39;white&#39;,
+): Square | undefined {
+  let fileIndex: number;
+  let rankIndex: number;
+
+  if (orientation === &#39;white&#39;) {
+    fileIndex = col;
+    rankIndex = row;
+  } else {
+    fileIndex = 7 - col;
+    rankIndex = 7 - row;
+  }
+
+  if (fileIndex &lt; 0 || fileIndex &gt; 7 || rankIndex &lt; 0 || rankIndex &gt; 7) {
+    return undefined;
+  }
+
+  const file = FILES[fileIndex];
+  const rank = RANKS[rankIndex];
+
+  if (!file || !rank) {
+    return undefined;
+  }
+
+  return `${file}${rank}` as Square;
+}
+
+function getSquareFromPointer(
+  clientX: number,
+  clientY: number,
+  rect: DOMRect,
+  squareSize: number,
+  orientation: &#39;black&#39; | &#39;white&#39;,
+): Square | undefined {
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+  const col = Math.floor(x / squareSize);
+  const row = Math.floor(y / squareSize);
+
+  return coordsToSquare(col, row, orientation);
+}
+
+export {
+  diffPositions,
+  FILES,
+  getSquareFromPointer,
+  RANKS,
+  SQUARES,
+  squareColor,
+  squareCoords,
+};
 export type { PieceDelta, SquareCoords };
 
 
@@ -1035,7 +1088,60 @@ function diffPositions(
   return deltas;
 }
 
-export { diffPositions, SQUARES, squareColor, squareCoords };
+function coordsToSquare(
+  col: number,
+  row: number,
+  orientation: &#39;black&#39; | &#39;white&#39;,
+): Square | undefined {
+  let fileIndex: number;
+  let rankIndex: number;
+
+  if (orientation === &#39;white&#39;) {
+    fileIndex = col;
+    rankIndex = row;
+  } else {
+    fileIndex = 7 - col;
+    rankIndex = 7 - row;
+  }
+
+  if (fileIndex &lt; 0 || fileIndex &gt; 7 || rankIndex &lt; 0 || rankIndex &gt; 7) {
+    return undefined;
+  }
+
+  const file = FILES[fileIndex];
+  const rank = RANKS[rankIndex];
+
+  if (!file || !rank) {
+    return undefined;
+  }
+
+  return `${file}${rank}` as Square;
+}
+
+function getSquareFromPointer(
+  clientX: number,
+  clientY: number,
+  rect: DOMRect,
+  squareSize: number,
+  orientation: &#39;black&#39; | &#39;white&#39;,
+): Square | undefined {
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+  const col = Math.floor(x / squareSize);
+  const row = Math.floor(y / squareSize);
+
+  return coordsToSquare(col, row, orientation);
+}
+
+export {
+  diffPositions,
+  FILES,
+  getSquareFromPointer,
+  RANKS,
+  SQUARES,
+  squareColor,
+  squareCoords,
+};
 export type { PieceDelta, SquareCoords };
 </code></pre></div>
     </div>
@@ -1479,7 +1585,60 @@ function diffPositions(
   return deltas;
 }
 
-export { diffPositions, SQUARES, squareColor, squareCoords };
+function coordsToSquare(
+  col: number,
+  row: number,
+  orientation: &#39;black&#39; | &#39;white&#39;,
+): Square | undefined {
+  let fileIndex: number;
+  let rankIndex: number;
+
+  if (orientation === &#39;white&#39;) {
+    fileIndex = col;
+    rankIndex = row;
+  } else {
+    fileIndex = 7 - col;
+    rankIndex = 7 - row;
+  }
+
+  if (fileIndex &lt; 0 || fileIndex &gt; 7 || rankIndex &lt; 0 || rankIndex &gt; 7) {
+    return undefined;
+  }
+
+  const file = FILES[fileIndex];
+  const rank = RANKS[rankIndex];
+
+  if (!file || !rank) {
+    return undefined;
+  }
+
+  return `${file}${rank}` as Square;
+}
+
+function getSquareFromPointer(
+  clientX: number,
+  clientY: number,
+  rect: DOMRect,
+  squareSize: number,
+  orientation: &#39;black&#39; | &#39;white&#39;,
+): Square | undefined {
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+  const col = Math.floor(x / squareSize);
+  const row = Math.floor(y / squareSize);
+
+  return coordsToSquare(col, row, orientation);
+}
+
+export {
+  diffPositions,
+  FILES,
+  getSquareFromPointer,
+  RANKS,
+  SQUARES,
+  squareColor,
+  squareCoords,
+};
 export type { PieceDelta, SquareCoords };
 
 
@@ -1698,7 +1857,60 @@ function diffPositions(
   return deltas;
 }
 
-export { diffPositions, SQUARES, squareColor, squareCoords };
+function coordsToSquare(
+  col: number,
+  row: number,
+  orientation: &#39;black&#39; | &#39;white&#39;,
+): Square | undefined {
+  let fileIndex: number;
+  let rankIndex: number;
+
+  if (orientation === &#39;white&#39;) {
+    fileIndex = col;
+    rankIndex = row;
+  } else {
+    fileIndex = 7 - col;
+    rankIndex = 7 - row;
+  }
+
+  if (fileIndex &lt; 0 || fileIndex &gt; 7 || rankIndex &lt; 0 || rankIndex &gt; 7) {
+    return undefined;
+  }
+
+  const file = FILES[fileIndex];
+  const rank = RANKS[rankIndex];
+
+  if (!file || !rank) {
+    return undefined;
+  }
+
+  return `${file}${rank}` as Square;
+}
+
+function getSquareFromPointer(
+  clientX: number,
+  clientY: number,
+  rect: DOMRect,
+  squareSize: number,
+  orientation: &#39;black&#39; | &#39;white&#39;,
+): Square | undefined {
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+  const col = Math.floor(x / squareSize);
+  const row = Math.floor(y / squareSize);
+
+  return coordsToSquare(col, row, orientation);
+}
+
+export {
+  diffPositions,
+  FILES,
+  getSquareFromPointer,
+  RANKS,
+  SQUARES,
+  squareColor,
+  squareCoords,
+};
 export type { PieceDelta, SquareCoords };
 </code></pre></div>
     </div>
