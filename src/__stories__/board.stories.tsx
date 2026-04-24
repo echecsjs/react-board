@@ -38,6 +38,7 @@ const meta: Meta<BoardProperties> = {
       </div>
     ),
   ],
+  tags: ['autodocs'],
   title: 'Board',
 };
 
