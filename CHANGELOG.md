@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.3] - 2026-04-26
+
+### Changed
+
+- inlined `Piece` and `Square` types locally, removing `@echecs/position` as a
+  runtime dependency — lighter install, no functional change (#39)
+
+### Fixed
+
+- storybook autodocs page not rendering — added missing `@storybook/addon-docs`
+  dependency (#40)
+- deduplicated rendering logic in Board component (#22)
+
 ## [2.1.2] - 2026-04-19
 
 ### Fixed
