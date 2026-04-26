@@ -8,7 +8,7 @@ import {
   squareCoords,
 } from '../utilities.js';
 
-import type { Piece, Square } from '@echecs/position';
+import type { Piece, Square } from '../types.js';
 
 describe('SQUARES', () => {
   it('has 64 entries', () => {

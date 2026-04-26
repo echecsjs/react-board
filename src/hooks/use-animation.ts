@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { diffPositions, squareCoords } from '../utilities.js';
 
-import type { Piece, Square } from '@echecs/position';
+import type { Piece, Square } from '../types.js';
 import type React from 'react';
 
 interface AnimationOffset {

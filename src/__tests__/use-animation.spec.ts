@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useAnimation } from '../hooks/use-animation.js';
 
-import type { Piece, Square } from '@echecs/position';
+import type { Piece, Square } from '../types.js';
 
 function makePosition(entries: [Square, Piece][]): Map<Square, Piece> {
   return new Map(entries);
