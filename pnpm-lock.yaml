@@ -14,7 +14,7 @@ importers:
     devDependencies:
       '@echecs/game':
         specifier: ^2.0.0
-        version: 2.0.0
+        version: 2.0.2
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.2.0)
@@ -220,20 +220,20 @@ packages:
     resolution: {integrity: sha512-Vd/9EVDiu6PPJt9yAh6roZP6El1xHrdvIVGjyBsHR0RYwNHgL7FJPyIIW4fANJNG6FtyZfvlRPpFI4ZM/lubvw==}
     engines: {node: '>=18'}
 
-  '@echecs/game@2.0.0':
-    resolution: {integrity: sha512-ZYkjJSryJ+sRfSNWp2ErLfY8U52ZWK87X5zblJ899o2p+r7adOrpLzgBNuu1wupeWdE48AMoLWJAMGqle1avuQ==}
+  '@echecs/game@2.0.2':
+    resolution: {integrity: sha512-/OduSZPw5xaM3vaLL81wj/T4r06QfZ1nBGsPfuHlg8QZ2fz2tNJLSHCy5tzHP7eq6ZU/I4rDzPRQwGFfILZA/g==}
     engines: {node: '>=20'}
 
   '@echecs/position@1.0.2':
     resolution: {integrity: sha512-8H5onNRSudqyblCr0q2+TNxrQHkWwWYqcaC737GFjjHre4YsPx0v4P9RYME6EIso4VuQC1cK2KwoBtKLEVhcIQ==}
     engines: {node: '>=20'}
 
-  '@echecs/position@3.0.3':
-    resolution: {integrity: sha512-6QG30wBg3LT2jgf1HVWXblwwHxI5HO86D+errFNV9CAp1598qGnlm8mh2GyzOT7jvn3KythZ2JgCr/CpiBtJIA==}
+  '@echecs/position@3.0.5':
+    resolution: {integrity: sha512-YUkBF/yrIebHABZPebRHsIZGhHT6unk9WwxVE98AvoeTYfAAg+8SjpyjLstKxYqvBxyWP6SEIFj0Ad6p5zIH3Q==}
     engines: {node: '>=20'}
 
-  '@echecs/zobrist@1.0.0':
-    resolution: {integrity: sha512-DYAs10AA42r6p4/hNMVAX0L6CzqOI6VZ0Vasu6mDpNHsLnnSiCBdcg5mInWA58NKJxTthpEka8ZzdKeemN6izQ==}
+  '@echecs/zobrist@1.0.2':
+    resolution: {integrity: sha512-X2HtxAhP8zuiE9IaTJ0uM9kccQjGR9zseXZGnIB3zJmpCYcA3TBGiAceLqrtYgyjK4dpIOH5F+0R25bOWlW3Xg==}
     engines: {node: '>=20'}
 
   '@emnapi/core@1.10.0':
@@ -2625,17 +2625,17 @@ snapshots:
 
   '@csstools/css-tokenizer@3.0.4': {}
 
-  '@echecs/game@2.0.0':
+  '@echecs/game@2.0.2':
     dependencies:
-      '@echecs/position': 3.0.3
+      '@echecs/position': 3.0.5
 
   '@echecs/position@1.0.2': {}
 
-  '@echecs/position@3.0.3':
+  '@echecs/position@3.0.5':
     dependencies:
-      '@echecs/zobrist': 1.0.0
+      '@echecs/zobrist': 1.0.2
 
-  '@echecs/zobrist@1.0.0': {}
+  '@echecs/zobrist@1.0.2': {}
 
   '@emnapi/core@1.10.0':
     dependencies:
