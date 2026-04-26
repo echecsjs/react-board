@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@echecs/position':
-        specifier: ^1.0.0
-        version: 1.0.2
+        specifier: ^3.0.5
+        version: 3.0.5
     devDependencies:
       '@echecs/game':
         specifier: ^2.0.0
@@ -222,10 +222,6 @@ packages:
 
   '@echecs/game@2.0.2':
     resolution: {integrity: sha512-/OduSZPw5xaM3vaLL81wj/T4r06QfZ1nBGsPfuHlg8QZ2fz2tNJLSHCy5tzHP7eq6ZU/I4rDzPRQwGFfILZA/g==}
-    engines: {node: '>=20'}
-
-  '@echecs/position@1.0.2':
-    resolution: {integrity: sha512-8H5onNRSudqyblCr0q2+TNxrQHkWwWYqcaC737GFjjHre4YsPx0v4P9RYME6EIso4VuQC1cK2KwoBtKLEVhcIQ==}
     engines: {node: '>=20'}
 
   '@echecs/position@3.0.5':
@@ -2632,8 +2628,6 @@ snapshots:
   '@echecs/game@2.0.2':
     dependencies:
       '@echecs/position': 3.0.5
-
-  '@echecs/position@1.0.2': {}
 
   '@echecs/position@3.0.5':
     dependencies:
