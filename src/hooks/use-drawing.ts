@@ -1,10 +1,15 @@
 import { useCallback, useRef, useState } from 'react';
 
-import type { Square } from '@echecs/position';
-import type { Annotations, Arrow, ArrowKind, Circle } from '../types.js';
-import type React from 'react';
-
 import { getSquareFromPointer } from '../utilities.js';
+
+import type {
+  Annotations,
+  Arrow,
+  ArrowKind,
+  Circle,
+  Square,
+} from '../types.js';
+import type React from 'react';
 
 interface UseDrawingOptions {
   boardRef: React.RefObject<HTMLDivElement | null>;

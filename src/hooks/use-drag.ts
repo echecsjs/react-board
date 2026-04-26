@@ -1,10 +1,9 @@
 import { useCallback, useRef, useState } from 'react';
 
-import type { MoveEvent } from '../types.js';
-import type { Piece, Square } from '@echecs/position';
-import type React from 'react';
-
 import { getSquareFromPointer } from '../utilities.js';
+
+import type { MoveEvent, Piece, Square } from '../types.js';
+import type React from 'react';
 
 interface DragState {
   floating: { x: number; y: number } | undefined;

@@ -14,10 +14,11 @@ import type {
   Arrow,
   BoardProps as BoardProperties,
   MoveEvent,
+  Piece,
   PieceKey,
   PieceSet,
+  Square,
 } from '../types.js';
-import type { Piece, Square } from '@echecs/position';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<BoardProperties> = {
