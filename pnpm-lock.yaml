@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@echecs/game':
-        specifier: ^2.0.0
-        version: 2.0.2
+        specifier: ^3.0.0
+        version: 3.0.0
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.2.1)
@@ -243,8 +243,8 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@echecs/game@2.0.2':
-    resolution: {integrity: sha512-/OduSZPw5xaM3vaLL81wj/T4r06QfZ1nBGsPfuHlg8QZ2fz2tNJLSHCy5tzHP7eq6ZU/I4rDzPRQwGFfILZA/g==}
+  '@echecs/game@3.0.0':
+    resolution: {integrity: sha512-0TtXewYuC7dMTaZ/uecK6TOF5Yi0LbfQgnErylTrGQyxbiy4Mj8YvBvoL4NKLsu/RLcmCMGwqJ48tZ/rIhc10A==}
     engines: {node: '>=20'}
 
   '@echecs/position@3.0.5':
@@ -2636,7 +2636,7 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@echecs/game@2.0.2':
+  '@echecs/game@3.0.0':
     dependencies:
       '@echecs/position': 3.0.5
 
