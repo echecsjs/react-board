@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@echecs/game':
-        specifier: ^3.0.0
-        version: 3.0.0
+        specifier: ^4.0.0
+        version: 4.0.0
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.2.1)
@@ -243,12 +243,12 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@echecs/game@3.0.0':
-    resolution: {integrity: sha512-0TtXewYuC7dMTaZ/uecK6TOF5Yi0LbfQgnErylTrGQyxbiy4Mj8YvBvoL4NKLsu/RLcmCMGwqJ48tZ/rIhc10A==}
+  '@echecs/game@4.0.0':
+    resolution: {integrity: sha512-jL4cHUtKruJXVIbidQIpfyMiAXu2xYc5lROPtA1zClstqe4bdqSAyZJuQP2/Kyuq6ONZpgGDPnXVz12DwtgrFw==}
     engines: {node: '>=20'}
 
-  '@echecs/position@3.0.5':
-    resolution: {integrity: sha512-YUkBF/yrIebHABZPebRHsIZGhHT6unk9WwxVE98AvoeTYfAAg+8SjpyjLstKxYqvBxyWP6SEIFj0Ad6p5zIH3Q==}
+  '@echecs/position@3.1.0':
+    resolution: {integrity: sha512-NjyPnbq4NaNfhbEtFTW61/qKLsR+BkFeus9Z/RIaHEJI7Kr0WWkjyKoU3t6FNUjFr5m+QkjV2jo6vzfElpS5hw==}
     engines: {node: '>=20'}
 
   '@echecs/zobrist@1.0.2':
@@ -2673,11 +2673,11 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@echecs/game@3.0.0':
+  '@echecs/game@4.0.0':
     dependencies:
-      '@echecs/position': 3.0.5
+      '@echecs/position': 3.1.0
 
-  '@echecs/position@3.0.5':
+  '@echecs/position@3.1.0':
     dependencies:
       '@echecs/zobrist': 1.0.2
 
