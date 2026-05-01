@@ -8,10 +8,25 @@ import { useDrawing } from './hooks/use-drawing.js';
 import { DEFAULT_PIECES } from './pieces/index.js';
 import { SQUARES, squareColor, squareCoords } from './utilities.js';
 
+import type { Color, PieceType } from '@echecs/position';
 import type { BoardProps as BoardProperties, PieceKey } from './types.js';
 import type React from 'react';
 
 const STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+
+const COLOR_PREFIX: Record<Color, 'b' | 'w'> = { black: 'b', white: 'w' };
+const TYPE_SUFFIX: Record<PieceType, string> = {
+  bishop: 'B',
+  king: 'K',
+  knight: 'N',
+  pawn: 'P',
+  queen: 'Q',
+  rook: 'R',
+};
+
+function pieceKey(color: Color, type: PieceType): PieceKey {
+  return `${COLOR_PREFIX[color]}${TYPE_SUFFIX[type]}` as PieceKey;
+}
 
 function Board({
   animate = true,
@@ -165,8 +180,7 @@ function Board({
     const ghostPiece = positionMap.get(dragState.from);
 
     if (ghostPiece) {
-      const ghostKey: PieceKey =
-        `${ghostPiece.color}${ghostPiece.type.toUpperCase()}` as PieceKey;
+      const ghostKey = pieceKey(ghostPiece.color, ghostPiece.type);
       ghostImage = pieces[ghostKey];
     }
   }
@@ -307,8 +321,7 @@ function Board({
           let pieceImage: string | undefined;
 
           if (piece && !hidePiece) {
-            const key: PieceKey =
-              `${piece.color}${piece.type.toUpperCase()}` as PieceKey;
+            const key = pieceKey(piece.color, piece.type);
             pieceImage = pieces[key];
           }
 
