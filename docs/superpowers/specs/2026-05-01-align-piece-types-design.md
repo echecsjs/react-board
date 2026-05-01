@@ -6,8 +6,8 @@
 ## background
 
 react-board used to import `Piece` and `Square` from `@echecs/position@^1.0.0`,
-which had abbreviated types (`'b'|'w'`, `'b'|'k'|'n'|...`). PR #39 inlined
-those types locally and dropped the dependency entirely.
+which had abbreviated types (`'b'|'w'`, `'b'|'k'|'n'|...`). PR #39 inlined those
+types locally and dropped the dependency entirely.
 
 `@echecs/position` has since moved to v3 with full-word types
 (`'black'|'white'`, `'bishop'|'king'|'knight'|...`). this means consumers using
@@ -20,14 +20,14 @@ already have `COLOR_MAP` / `TYPE_MAP` helpers doing exactly this.
 
 replace locally defined types with imports from `@echecs/position`:
 
-| type        | current (local)                          | new (from position)                                          |
-|-------------|------------------------------------------|--------------------------------------------------------------|
-| `Color`     | `'b' \| 'w'`                            | `'black' \| 'white'`                                        |
+| type        | current (local)                          | new (from position)                                             |
+| ----------- | ---------------------------------------- | --------------------------------------------------------------- |
+| `Color`     | `'b' \| 'w'`                             | `'black' \| 'white'`                                            |
 | `PieceType` | `'b' \| 'k' \| 'n' \| 'p' \| 'q' \| 'r'` | `'bishop' \| 'king' \| 'knight' \| 'pawn' \| 'queen' \| 'rook'` |
-| `Piece`     | `{ color: Color; type: PieceType }`      | same shape, different literal values                         |
-| `File`      | `'a' \| 'b' \| ... \| 'h'`              | identical — import for consistency                           |
-| `Rank`      | `'1' \| '2' \| ... \| '8'`              | identical — import for consistency                           |
-| `Square`    | `` `${File}${Rank}` ``                   | identical — import for consistency                           |
+| `Piece`     | `{ color: Color; type: PieceType }`      | same shape, different literal values                            |
+| `File`      | `'a' \| 'b' \| ... \| 'h'`               | identical — import for consistency                              |
+| `Rank`      | `'1' \| '2' \| ... \| '8'`               | identical — import for consistency                              |
+| `Square`    | `` `${File}${Rank}` ``                   | identical — import for consistency                              |
 
 re-export `Color`, `File`, `PieceType`, `Piece`, `Rank`, `Square` from the
 package entry point so consumers don't need to install `@echecs/position` just
@@ -35,15 +35,13 @@ to type a `Piece`.
 
 ### `PromotionPiece` — align with `PieceType`
 
-current: `'b' | 'n' | 'q' | 'r'`
-new: `'bishop' | 'knight' | 'queen' | 'rook'`
+current: `'b' | 'n' | 'q' | 'r'` new: `'bishop' | 'knight' | 'queen' | 'rook'`
 
 this is an exported type used in the `PromotionDialog` `onSelect` callback.
 
 ### `MoveEvent.promotion` — type narrowly
 
-current: `promotion?: string`
-new: `promotion?: PromotionPiece`
+current: `promotion?: string` new: `promotion?: PromotionPiece`
 
 since `PromotionPiece` now uses full-word values, the promotion field becomes
 properly typed instead of an opaque string.
@@ -59,7 +57,12 @@ internal code that converts `Piece` → `PieceKey` needs a small mapping:
 ```typescript
 const COLOR_PREFIX: Record<Color, 'b' | 'w'> = { black: 'b', white: 'w' };
 const TYPE_SUFFIX: Record<PieceType, string> = {
-  bishop: 'B', king: 'K', knight: 'N', pawn: 'P', queen: 'Q', rook: 'R',
+  bishop: 'B',
+  king: 'K',
+  knight: 'N',
+  pawn: 'P',
+  queen: 'Q',
+  rook: 'R',
 };
 
 function pieceKey(piece: Piece): PieceKey {
@@ -101,11 +104,11 @@ keep `@echecs/position` in `devDependencies` as well for local development.
 
 ### stories cleanup
 
-remove `COLOR_MAP`, `TYPE_MAP`, and `PROMOTION_MAP` from
-`board.stories.tsx`. the `toPosition()` helper becomes a direct passthrough
-since `game.position().pieces()` already returns `Map<Square, Piece>` with the
-right types. `PROMOTION_MAP` goes away because `PromotionPiece` values now match
-what `@echecs/game` expects.
+remove `COLOR_MAP`, `TYPE_MAP`, and `PROMOTION_MAP` from `board.stories.tsx`.
+the `toPosition()` helper becomes a direct passthrough since
+`game.position().pieces()` already returns `Map<Square, Piece>` with the right
+types. `PROMOTION_MAP` goes away because `PromotionPiece` values now match what
+`@echecs/game` expects.
 
 ### `orientation` and `turn` props
 
@@ -113,21 +116,21 @@ already use `'black' | 'white'` — no change needed.
 
 ## files affected
 
-| file                              | change                                              |
-|-----------------------------------|-----------------------------------------------------|
-| `src/types.ts`                    | import types from position, update `PromotionPiece`, type `MoveEvent.promotion` |
-| `src/index.ts`                    | re-export `Color`, `File`, `Piece`, `PieceType`, `Rank`, `Square` |
-| `src/fen.ts`                      | update `PIECE_MAP` values                           |
-| `src/board.tsx`                   | add `Piece` → `PieceKey` mapping                    |
-| `src/promotion-dialog.tsx`        | update `PromotionPiece` values, `colorPrefix` mapping |
-| `src/utilities.ts`                | no change (uses `Piece`/`Square` by shape)           |
-| `src/hooks/use-drag.ts`           | no change (uses types by shape)                      |
-| `src/hooks/use-animation.ts`      | no change (uses types by shape)                      |
-| `src/__stories__/board.stories.tsx`| remove conversion helpers                           |
-| `src/__tests__/fen.spec.ts`       | update expected `Piece` values in assertions         |
-| `src/__tests__/board.spec.tsx`    | update any `Piece` literals in test data             |
-| `src/__tests__/promotion-dialog.spec.tsx` | update expected `PromotionPiece` values      |
-| `package.json`                    | add `@echecs/position` to peerDependencies           |
+| file                                      | change                                                                          |
+| ----------------------------------------- | ------------------------------------------------------------------------------- |
+| `src/types.ts`                            | import types from position, update `PromotionPiece`, type `MoveEvent.promotion` |
+| `src/index.ts`                            | re-export `Color`, `File`, `Piece`, `PieceType`, `Rank`, `Square`               |
+| `src/fen.ts`                              | update `PIECE_MAP` values                                                       |
+| `src/board.tsx`                           | add `Piece` → `PieceKey` mapping                                                |
+| `src/promotion-dialog.tsx`                | update `PromotionPiece` values, `colorPrefix` mapping                           |
+| `src/utilities.ts`                        | no change (uses `Piece`/`Square` by shape)                                      |
+| `src/hooks/use-drag.ts`                   | no change (uses types by shape)                                                 |
+| `src/hooks/use-animation.ts`              | no change (uses types by shape)                                                 |
+| `src/__stories__/board.stories.tsx`       | remove conversion helpers                                                       |
+| `src/__tests__/fen.spec.ts`               | update expected `Piece` values in assertions                                    |
+| `src/__tests__/board.spec.tsx`            | update any `Piece` literals in test data                                        |
+| `src/__tests__/promotion-dialog.spec.tsx` | update expected `PromotionPiece` values                                         |
+| `package.json`                            | add `@echecs/position` to peerDependencies                                      |
 
 ## what does NOT change
 
@@ -143,11 +146,14 @@ already use `'black' | 'white'` — no change needed.
 ## breaking change surface
 
 consumers must update if they:
+
 1. pass `Map<Square, Piece>` to the `position` prop — piece values change
 2. handle `PromotionPiece` from `PromotionDialog.onSelect` — values change
-3. read `MoveEvent.promotion` — now typed as `PromotionPiece` instead of `string`
+3. read `MoveEvent.promotion` — now typed as `PromotionPiece` instead of
+   `string`
 
 consumers are unaffected if they:
+
 - use FEN strings for position
 - pass custom `PieceSet` (keys unchanged)
 - only use `onMove`, `onSquareClick` callbacks with `Square` values

@@ -91,4 +91,11 @@ export type {
   PromotionPiece,
 };
 
-export type { Color, File, Piece, PieceType, Rank, Square } from '@echecs/position';
+export type {
+  Color,
+  File,
+  Piece,
+  PieceType,
+  Rank,
+  Square,
+} from '@echecs/position';

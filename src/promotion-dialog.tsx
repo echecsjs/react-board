@@ -12,7 +12,12 @@ interface PromotionDialogProperties {
   squareSize: number;
 }
 
-const PROMOTION_PIECES: PromotionPiece[] = ['queen', 'rook', 'bishop', 'knight'];
+const PROMOTION_PIECES: PromotionPiece[] = [
+  'queen',
+  'rook',
+  'bishop',
+  'knight',
+];
 
 const COLOR_PREFIX: Record<Color, 'b' | 'w'> = { black: 'b', white: 'w' };
 const TYPE_KEY: Record<PromotionPiece, string> = {
@@ -51,8 +56,7 @@ function PromotionDialog({
   return (
     <div data-promotion-dialog style={containerStyle}>
       {PROMOTION_PIECES.map((piece) => {
-        const key: PieceKey =
-          `${colorPrefix}${TYPE_KEY[piece]}` as PieceKey;
+        const key: PieceKey = `${colorPrefix}${TYPE_KEY[piece]}` as PieceKey;
         const pieceImage = pieces[key];
 
         return (

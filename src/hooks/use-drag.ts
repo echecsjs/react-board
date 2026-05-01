@@ -238,10 +238,7 @@ function useDrag({
           // Clicked another piece → re-select (if correct turn)
           const reselectedPiece = pieces.get(downSquare);
 
-          if (
-            reselectedPiece &&
-            (!turn || reselectedPiece.color === turn)
-          ) {
+          if (reselectedPiece && (!turn || reselectedPiece.color === turn)) {
             setSelectedSquare(downSquare);
 
             return;
@@ -253,10 +250,7 @@ function useDrag({
           // No selection yet: select if there's a piece here (and correct turn)
           const clickedPiece = pieces.get(downSquare);
 
-          if (
-            clickedPiece &&
-            (!turn || clickedPiece.color === turn)
-          ) {
+          if (clickedPiece && (!turn || clickedPiece.color === turn)) {
             setSelectedSquare(downSquare);
           }
         }
