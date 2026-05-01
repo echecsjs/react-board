@@ -8,8 +8,8 @@ import { useDrawing } from './hooks/use-drawing.js';
 import { DEFAULT_PIECES } from './pieces/index.js';
 import { SQUARES, squareColor, squareCoords } from './utilities.js';
 
-import type { Color, PieceType } from '@echecs/position';
 import type { BoardProps as BoardProperties, PieceKey } from './types.js';
+import type { Color, PieceType } from '@echecs/position';
 import type React from 'react';
 
 const STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';

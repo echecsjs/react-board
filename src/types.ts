@@ -1,4 +1,4 @@
-import type { Color, File, Piece, PieceType, Rank, Square } from '@echecs/position';
+import type { Piece, PieceType, Square } from '@echecs/position';
 import type React from 'react';
 
 type ArrowKind = 'alternative' | 'capture' | 'danger' | 'move';
@@ -85,14 +85,10 @@ export type {
   ArrowKind,
   BoardProperties as BoardProps,
   Circle,
-  Color,
-  File,
   MoveEvent,
-  Piece,
   PieceKey,
   PieceSet,
-  PieceType,
   PromotionPiece,
-  Rank,
-  Square,
 };
+
+export type { Color, File, Piece, PieceType, Rank, Square } from '@echecs/position';
