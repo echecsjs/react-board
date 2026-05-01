@@ -233,34 +233,8 @@ export const CustomArrowColors: Story = {
 
 // -- Interactive: playable game with @echecs/game ---
 
-const COLOR_MAP: Record<string, 'b' | 'w'> = { black: 'b', white: 'w' };
-const PROMOTION_MAP: Record<string, string> = {
-  b: 'bishop',
-  n: 'knight',
-  q: 'queen',
-  r: 'rook',
-};
-const TYPE_MAP: Record<string, 'b' | 'k' | 'n' | 'p' | 'q' | 'r'> = {
-  bishop: 'b',
-  king: 'k',
-  knight: 'n',
-  pawn: 'p',
-  queen: 'q',
-  rook: 'r',
-};
-
 function toPosition(game: Game): Map<Square, Piece> {
-  const result = new Map<Square, Piece>();
-  for (const [square, piece] of game.position().pieces()) {
-    result.set(
-      square as Square,
-      {
-        color: COLOR_MAP[piece.color],
-        type: TYPE_MAP[piece.type],
-      } as Piece,
-    );
-  }
-  return result;
+  return game.position().pieces() as Map<Square, Piece>;
 }
 
 function toLegalMoves(game: Game): Map<Square, Square[]> {
@@ -354,10 +328,9 @@ function InteractiveGame(): React.JSX.Element {
     (piece: string) => {
       if (!pendingPromotion) return;
       try {
-        const promotionType = PROMOTION_MAP[piece] ?? 'queen';
         gameReference.current.move({
           from: pendingPromotion.from,
-          promotion: promotionType as never,
+          promotion: piece as never,
           to: pendingPromotion.to,
         });
         playSound(pendingPromotion, false);
