@@ -10,8 +10,8 @@ function makePosition(entries: [Square, Piece][]): Map<Square, Piece> {
   return new Map(entries);
 }
 
-const whitePawn: Piece = { color: 'w', type: 'p' };
-const whiteKing: Piece = { color: 'w', type: 'k' };
+const whitePawn: Piece = { color: 'white', type: 'pawn' };
+const whiteKing: Piece = { color: 'white', type: 'king' };
 
 // Stub refs for tests — no board element, no drop info
 const boardReference =

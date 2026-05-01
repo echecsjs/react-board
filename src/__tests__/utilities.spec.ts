@@ -93,9 +93,9 @@ describe('squareColor', () => {
 });
 
 describe('diffPositions', () => {
-  const wP: Piece = { color: 'w', type: 'p' };
-  const bP: Piece = { color: 'b', type: 'p' };
-  const wK: Piece = { color: 'w', type: 'k' };
+  const wP: Piece = { color: 'white', type: 'pawn' };
+  const bP: Piece = { color: 'black', type: 'pawn' };
+  const wK: Piece = { color: 'white', type: 'king' };
 
   it('returns empty array for identical positions', () => {
     const pos = new Map<Square, Piece>([['e2', wP]]);
