@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@echecs/game':
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.1
       '@echecs/position':
         specifier: ^3.0.5
         version: 3.1.0
@@ -251,12 +251,16 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@echecs/game@4.0.0':
-    resolution: {integrity: sha512-jL4cHUtKruJXVIbidQIpfyMiAXu2xYc5lROPtA1zClstqe4bdqSAyZJuQP2/Kyuq6ONZpgGDPnXVz12DwtgrFw==}
+  '@echecs/game@4.0.1':
+    resolution: {integrity: sha512-/07qE+8+kgXZ1scf7FODLkT72YXT4Wptm6WYQQdItd/h1dqQBHGNDtv6NwfyDvZ5cSW6wKBqXmdz544YEd6Tpw==}
     engines: {node: '>=20'}
 
   '@echecs/position@3.1.0':
     resolution: {integrity: sha512-NjyPnbq4NaNfhbEtFTW61/qKLsR+BkFeus9Z/RIaHEJI7Kr0WWkjyKoU3t6FNUjFr5m+QkjV2jo6vzfElpS5hw==}
+    engines: {node: '>=20'}
+
+  '@echecs/position@4.0.0':
+    resolution: {integrity: sha512-D9z+d13owPg/EEyEp2nfqhE8gbDCdWvsoULstW4bRrums0J/i3Nxc9yz7XADe8dFhV4nqAYCanrZBk9Sr6aIIw==}
     engines: {node: '>=20'}
 
   '@echecs/zobrist@1.0.2':
@@ -1980,8 +1984,8 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  postcss@8.5.13:
-    resolution: {integrity: sha512-qif0+jGGZoLWdHey3UFHHWP0H7Gbmsk8T5VEqyYFbWqPr1XqvLGBbk/sl8V5exGmcYJklJOhOQq1pV9IcsiFag==}
+  postcss@8.5.14:
+    resolution: {integrity: sha512-SoSL4+OSEtR99LHFZQiJLkT59C5B1amGO1NzTwj7TT1qCUgUO6hxOvzkOYxD+vMrXBM3XJIKzokoERdqQq/Zmg==}
     engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
@@ -2688,11 +2692,15 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@echecs/game@4.0.0':
+  '@echecs/game@4.0.1':
     dependencies:
-      '@echecs/position': 3.1.0
+      '@echecs/position': 4.0.0
 
   '@echecs/position@3.1.0':
+    dependencies:
+      '@echecs/zobrist': 1.0.2
+
+  '@echecs/position@4.0.0':
     dependencies:
       '@echecs/zobrist': 1.0.2
 
@@ -4225,7 +4233,7 @@ snapshots:
 
   pluralize@8.0.0: {}
 
-  postcss@8.5.13:
+  postcss@8.5.14:
     dependencies:
       nanoid: 3.3.12
       picocolors: 1.1.1
@@ -4633,7 +4641,7 @@ snapshots:
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
-      postcss: 8.5.13
+      postcss: 8.5.14
       rolldown: 1.0.0-rc.12(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
       tinyglobby: 0.2.16
     optionalDependencies:
