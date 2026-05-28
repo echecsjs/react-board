@@ -1,2 +1,5 @@
 # Do not format lock files
 /pnpm-lock.yaml
+
+# Playwright MCP snapshots
+/.playwright-mcp/
