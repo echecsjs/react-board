@@ -60,7 +60,7 @@ export default typescript.config(
         'error',
         {
           case: 'kebabCase',
-          ignore: [/^__tests__$/],
+          ignore: [/^__stories__$/, /^__tests__$/],
         },
       ],
     },
