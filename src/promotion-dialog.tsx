@@ -95,7 +95,7 @@ function PromotionDialog({
             fontSize: squareSize * 0.3,
           }}
         >
-          {'\u00D7'}
+          {'\u{D7}'}
         </div>
       )}
     </div>

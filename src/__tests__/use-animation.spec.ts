@@ -124,21 +124,21 @@ describe('useAnimation', () => {
     const position2 = makePosition([['e4', whitePawn]]);
 
     let currentPosition = position1;
-    let currentAnimate = false;
+    let isCurrentAnimate = false;
 
     const { result, rerender } = renderHook(() =>
       useAnimation(
         currentPosition,
         60,
         'white',
-        currentAnimate,
+        isCurrentAnimate,
         boardReference,
         dropReference,
       ),
     );
 
     currentPosition = position2;
-    currentAnimate = false;
+    isCurrentAnimate = false;
     act(() => {
       rerender();
     });

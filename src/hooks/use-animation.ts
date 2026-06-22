@@ -20,7 +20,7 @@ function useAnimation(
   position: Map<Square, Piece>,
   squareSize: number,
   orientation: 'black' | 'white',
-  animate: boolean,
+  isAnimated: boolean,
   boardReference: React.RefObject<HTMLDivElement | null>,
   dropReference: React.MutableRefObject<DropInfo | undefined>,
 ): Map<Square, AnimationOffset> {
@@ -30,7 +30,7 @@ function useAnimation(
   );
 
   useEffect(() => {
-    if (!animate) {
+    if (!isAnimated) {
       previousPositionReference.current = position;
       return;
     }
@@ -86,9 +86,9 @@ function useAnimation(
         return cleared;
       });
     });
-  }, [animate, orientation, position, squareSize]);
+  }, [isAnimated, orientation, position, squareSize]);
 
-  if (!animate) {
+  if (!isAnimated) {
     return new Map();
   }
 
