@@ -296,7 +296,7 @@ function InteractiveGame(): React.JSX.Element {
     (move: MoveEvent): boolean => {
       try {
         const piece = gameReference.current.get(move.from as never);
-        const toRank = move.to[1];
+        const toRank = move.to.at(1);
         const isPromotion =
           piece?.type === 'pawn' && (toRank === '8' || toRank === '1');
 
@@ -463,13 +463,13 @@ export const Premove: Story = {
 // -- Promotion dialog: interactive demo ---
 
 function PromotionDemo(): React.JSX.Element {
-  const [showPromotion, setShowPromotion] = useState(true);
+  const [isShowPromotion, setShowPromotion] = useState(true);
   const promotionSquare = 'e8' as Square;
   const coords = squareCoords(promotionSquare, 'white');
 
   return (
     <Board position="rnbqkbnr/ppppPppp/8/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1">
-      {showPromotion && (
+      {isShowPromotion && (
         <div
           style={{
             gridColumn: coords.col,

@@ -102,9 +102,9 @@ function useDrag({
       }
 
       if (onMove) {
-        const capture = pieces.has(to);
+        const isCapture = pieces.has(to);
 
-        return onMove({ capture, from, to });
+        return onMove({ capture: isCapture, from, to });
       }
 
       return true;

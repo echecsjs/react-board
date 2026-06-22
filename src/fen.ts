@@ -25,7 +25,7 @@ const PIECE_MAP: Record<string, Piece> = {
  */
 function parseFen(fen: string): Map<Square, Piece> {
   const result = new Map<Square, Piece>();
-  const placement = fen.split(' ')[0];
+  const placement = fen.split(' ', 1)[0];
 
   if (!placement) {
     return result;
@@ -48,7 +48,7 @@ function parseFen(fen: string): Map<Square, Piece> {
     let fileIndex = 0;
 
     for (const ch of rankFen) {
-      const skip = Number.parseInt(ch, 10);
+      const skip = Number(ch);
 
       if (Number.isNaN(skip)) {
         const piece = PIECE_MAP[ch];

@@ -246,18 +246,16 @@ function Board({
           const isHighlighted = highlightSet.has(square);
           const hasLegalDot = legalTargets.has(square);
           const isSelected = isMovable && selectedSquare === square;
-          const hidePiece =
+          const isHidePiece =
             isMovable && dragState.isDragging && dragState.from === square;
 
-          const file = square[0];
-          const rank = square[1];
+          const file = square.at(0);
+          const rank = square.at(1);
 
-          const showRankCoord =
-            coordinates &&
-            (orientation === 'white' ? file === 'a' : file === 'h');
-          const showFileCoord =
-            coordinates &&
-            (orientation === 'white' ? rank === '1' : rank === '8');
+          const isShowRankCoord =
+            coordinates && file === (orientation === 'white' ? 'a' : 'h');
+          const isShowFileCoord =
+            coordinates && rank === (orientation === 'white' ? '1' : '8');
 
           const squareStyle: React.CSSProperties = {
             background:
@@ -320,7 +318,7 @@ function Board({
 
           let pieceImage: string | undefined;
 
-          if (piece && !hidePiece) {
+          if (piece && !isHidePiece) {
             const key = pieceKey(piece.color, piece.type);
             pieceImage = pieces[key];
           }
@@ -359,12 +357,12 @@ function Board({
               )}
               {pieceStyle && <div data-piece style={pieceStyle} />}
               {hasLegalDot && <div data-legal-dot style={legalDotStyle} />}
-              {showRankCoord && (
+              {isShowRankCoord && (
                 <span data-coordinate="rank" style={rankCoordStyle}>
                   {rank}
                 </span>
               )}
-              {showFileCoord && (
+              {isShowFileCoord && (
                 <span data-coordinate="file" style={fileCoordStyle}>
                   {file}
                 </span>

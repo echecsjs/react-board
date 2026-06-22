@@ -27,8 +27,8 @@ function squareCoords(
   square: Square,
   orientation: 'black' | 'white',
 ): SquareCoords {
-  const file = square[0] as (typeof FILES)[number];
-  const rank = square[1] as (typeof RANKS)[number];
+  const file = square.at(0) as (typeof FILES)[number];
+  const rank = square.at(1) as (typeof RANKS)[number];
 
   const fileIndex = FILES.indexOf(file);
   const rankIndex = RANKS.indexOf(rank);
@@ -46,12 +46,12 @@ function squareCoords(
  * a1 is dark (odd sum of file+rank indices).
  */
 function squareColor(square: Square): 'dark' | 'light' {
-  const file = square[0] as (typeof FILES)[number];
-  const rank = square[1] as (typeof RANKS)[number];
+  const file = square.at(0) as (typeof FILES)[number];
+  const rank = square.at(1) as (typeof RANKS)[number];
 
   const fileIndex = FILES.indexOf(file);
   // rank '1' → rankNumber 1, '8' → 8
-  const rankNumber = Number.parseInt(rank, 10);
+  const rankNumber = Number(rank);
 
   return (fileIndex + rankNumber) % 2 === 1 ? 'dark' : 'light';
 }
@@ -101,27 +101,31 @@ function diffPositions(
   // Match removed → added by piece identity (color + type)
   const usedAdded = new Set<number>();
 
-  for (const [fromSquare, fromPiece] of removedEntries) {
-    for (const [index, entry] of addedEntries.entries()) {
-      if (usedAdded.has(index)) {
-        continue;
+  function findMatch(fromSquare: Square, fromPiece: Piece): void {
+    const matchIndex = addedEntries.findIndex(([, toPiece], index) => {
+      if (usedAdded.has(index) || !toPiece) {
+        return false;
       }
 
-      if (!entry) {
-        continue;
-      }
+      return (
+        toPiece.color === fromPiece.color && toPiece.type === fromPiece.type
+      );
+    });
 
-      const [toSquare, toPiece] = entry;
+    if (matchIndex !== -1) {
+      const matched = addedEntries[matchIndex];
 
-      if (
-        toPiece.color === fromPiece.color &&
-        toPiece.type === fromPiece.type
-      ) {
+      if (matched) {
+        const [toSquare] = matched;
+
         deltas.push({ from: fromSquare, piece: fromPiece, to: toSquare });
-        usedAdded.add(index);
-        break;
+        usedAdded.add(matchIndex);
       }
     }
+  }
+
+  for (const [fromSquare, fromPiece] of removedEntries) {
+    findMatch(fromSquare, fromPiece);
   }
 
   return deltas;

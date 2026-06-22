@@ -29,20 +29,21 @@ class PointerEventPolyfill extends MouseEvent {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(globalThis as any).PointerEvent = PointerEventPolyfill;
+Object.assign(globalThis, { PointerEvent: PointerEventPolyfill });
 
 // jsdom does not implement ResizeObserver — provide a no-op stub
-globalThis.ResizeObserver = class ResizeObserver {
-  disconnect(): void {
-    // noop
-  }
+Object.assign(globalThis, {
+  ResizeObserver: class ResizeObserver {
+    disconnect(): void {
+      // noop
+    }
 
-  observe(): void {
-    // noop
-  }
+    observe(): void {
+      // noop
+    }
 
-  unobserve(): void {
-    // noop
-  }
-};
+    unobserve(): void {
+      // noop
+    }
+  },
+});

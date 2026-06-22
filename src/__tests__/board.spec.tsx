@@ -25,7 +25,9 @@ describe('Board', () => {
   it('renders default starting position when no position prop', () => {
     const { container } = render(<Board />);
     // Starting position has 32 pieces (16 per side)
-    const svgs = container.querySelectorAll('[data-square] [data-piece]');
+    const svgs = container.querySelectorAll(
+      ':scope [data-square] [data-piece]',
+    );
     expect(svgs).toHaveLength(32);
   });
 
@@ -33,7 +35,9 @@ describe('Board', () => {
     const { container } = render(
       <Board position="8/8/8/8/8/8/8/8 w - - 0 1" />,
     );
-    const svgs = container.querySelectorAll('[data-square] [data-piece]');
+    const svgs = container.querySelectorAll(
+      ':scope [data-square] [data-piece]',
+    );
     expect(svgs).toHaveLength(0);
   });
 
@@ -217,9 +221,7 @@ describe('interaction', () => {
       width: 480,
       x: 0,
       y: 0,
-      toJSON() {
-        return {};
-      },
+      toJSON: () => ({}),
     }));
   });
 
@@ -311,7 +313,7 @@ describe('interaction', () => {
 
     // Before selection: no dots
     expect(
-      container.querySelector('[data-square="e3"] [data-legal-dot]'),
+      container.querySelector(':scope [data-square="e3"] [data-legal-dot]'),
     ).toBeFalsy();
 
     // Select e2
@@ -320,10 +322,10 @@ describe('interaction', () => {
 
     // Now dots on e3 and e4
     expect(
-      container.querySelector('[data-square="e3"] [data-legal-dot]'),
+      container.querySelector(':scope [data-square="e3"] [data-legal-dot]'),
     ).toBeTruthy();
     expect(
-      container.querySelector('[data-square="e4"] [data-legal-dot]'),
+      container.querySelector(':scope [data-square="e4"] [data-legal-dot]'),
     ).toBeTruthy();
   });
 
