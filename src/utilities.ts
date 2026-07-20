@@ -103,7 +103,7 @@ function diffPositions(
 
   function findMatch(fromSquare: Square, fromPiece: Piece): void {
     const matchIndex = addedEntries.findIndex(([, toPiece], index) => {
-      if (usedAdded.has(index) || !toPiece) {
+      if (!toPiece || usedAdded.has(index)) {
         return false;
       }
 

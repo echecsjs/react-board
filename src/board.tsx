@@ -145,7 +145,7 @@ function Board({
         legalTargets.add(sq);
       }
     }
-  } else if (isMovable && dragState.from && legalMoves) {
+  } else if (isMovable && legalMoves && dragState.from) {
     const targets = legalMoves.get(dragState.from);
 
     if (targets) {
@@ -186,7 +186,7 @@ function Board({
   }
 
   const ghostStyle: React.CSSProperties | undefined =
-    dragState.isDragging && dragState.floating && ghostImage
+    ghostImage && dragState.isDragging && dragState.floating
       ? {
           backgroundImage: `url("${ghostImage}")`,
           backgroundPosition: 'center',
@@ -334,15 +334,13 @@ function Board({
                 position: 'relative',
                 width: '100%',
                 zIndex: 1,
-                ...(animOffset
-                  ? {
-                      transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
-                      transition:
-                        animOffset.x !== 0 || animOffset.y !== 0
-                          ? 'none'
-                          : 'var(--board-piece-transition, transform 200ms ease)',
-                    }
-                  : undefined),
+                ...(animOffset && {
+                  transform: `translate(${animOffset.x}px, ${animOffset.y}px)`,
+                  transition:
+                    animOffset.x !== 0 || animOffset.y !== 0
+                      ? 'none'
+                      : 'var(--board-piece-transition, transform 200ms ease)',
+                }),
               }
             : undefined;
 
