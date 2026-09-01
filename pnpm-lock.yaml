@@ -70,7 +70,7 @@ importers:
         version: 30.0.1
       lint-staged:
         specifier: ^17.0.5
-        version: 17.3.0
+        version: 17.4.1
       prettier:
         specifier: ^3.8.3
         version: 3.9.6
@@ -2424,8 +2424,8 @@ packages:
     resolution: {integrity: sha512-WkUDrojuJs0xkgGf2udWxa3yGBRxPtxUkB79i6aCZLRgc7PM8fZe9TosfPDcvEpQZbuFASnHYmRLBLUbmLOIIA==}
     engines: {node: '>= 12.0.0'}
 
-  lint-staged@17.3.0:
-    resolution: {integrity: sha512-woZS3vNe3UKqBaLPvbLOtKRY4tLANpWQhom12MGWqC8Mh1lCOO+WgSwmX2amjJAqTY9BkXYW87fCUH5H9Ph6xw==}
+  lint-staged@17.4.1:
+    resolution: {integrity: sha512-FmJeudcalbSfg1du+JCfvi5vS6Qt08KgbfLWiHinbef+2JJwUZwAWVoaO1AcJVUTWPfk0t30PMQNwPAeCzYQ+Q==}
     engines: {node: '>=22.22.1'}
     hasBin: true
 
@@ -3809,7 +3809,7 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.9
       estree-walker: 2.0.2
-      picomatch: 4.0.5
+      picomatch: 4.0.7
 
   '@standard-schema/spec@1.1.0': {}
 
@@ -4792,9 +4792,9 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fdir@6.5.0(picomatch@4.0.5):
+  fdir@6.5.0(picomatch@4.0.7):
     optionalDependencies:
-      picomatch: 4.0.5
+      picomatch: 4.0.7
 
   file-entry-cache@8.0.0:
     dependencies:
@@ -5027,9 +5027,9 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.33.0
       lightningcss-win32-x64-msvc: 1.33.0
 
-  lint-staged@17.3.0:
+  lint-staged@17.4.1:
     dependencies:
-      picomatch: 4.0.5
+      picomatch: 4.0.7
       string-argv: 0.3.2
       tinyexec: 1.3.0
     optionalDependencies:
@@ -5450,8 +5450,8 @@ snapshots:
 
   tinyglobby@0.2.17:
     dependencies:
-      fdir: 6.5.0(picomatch@4.0.5)
-      picomatch: 4.0.5
+      fdir: 6.5.0(picomatch@4.0.7)
+      picomatch: 4.0.7
 
   tinyrainbow@2.0.0: {}
 
@@ -5569,7 +5569,7 @@ snapshots:
     dependencies:
       '@jridgewell/remapping': 2.3.5
       acorn: 8.18.0
-      picomatch: 4.0.5
+      picomatch: 4.0.7
       webpack-virtual-modules: 0.6.2
 
   unrs-resolver@1.12.2:
