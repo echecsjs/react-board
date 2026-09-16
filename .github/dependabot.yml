@@ -15,6 +15,11 @@ updates:
           - 'react-dom'
           - '@types/react'
           - '@types/react-dom'
+      vitest:
+        patterns:
+          - 'vite'
+          - 'vitest'
+          - '@vitest/*'
     commit-message:
       prefix: 'chore'
       include: 'scope'
