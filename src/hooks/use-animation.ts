@@ -88,11 +88,7 @@ function useAnimation(
     });
   }, [isAnimated, orientation, position, squareSize]);
 
-  if (!isAnimated) {
-    return new Map();
-  }
-
-  return offsets;
+  return isAnimated ? offsets : new Map();
 }
 
 export { useAnimation };

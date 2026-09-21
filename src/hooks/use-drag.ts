@@ -93,11 +93,7 @@ function useDrag({
 
   const attemptMove = useCallback(
     (from: Square, to: Square): boolean => {
-      if (from === to) {
-        return false;
-      }
-
-      if (!isLegalTarget(from, to)) {
+      if (from === to || !isLegalTarget(from, to)) {
         return false;
       }
 
@@ -114,12 +110,7 @@ function useDrag({
 
   const onPointerDown = useCallback(
     (event: React.PointerEvent) => {
-      if (!interactive || !boardRef.current) {
-        return;
-      }
-
-      // Only handle left-click for piece movement
-      if (event.button !== 0) {
+      if (!interactive || !boardRef.current || event.button !== 0) {
         return;
       }
 
