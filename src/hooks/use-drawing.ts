@@ -38,8 +38,7 @@ function getKindFromModifiers(event: {
 }): ArrowKind {
   if (event.ctrlKey && event.altKey) return 'alternative';
   if (event.ctrlKey) return 'capture';
-  if (event.altKey) return 'danger';
-  return 'move';
+  return event.altKey ? 'danger' : 'move';
 }
 
 function useDrawing({

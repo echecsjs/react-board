@@ -3,7 +3,9 @@ import type { Piece, Square } from './types.js';
 const FILES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'] as const;
 const RANKS = ['8', '7', '6', '5', '4', '3', '2', '1'] as const;
 
-/** All 64 squares in render order: a8, b8, …, h8, a7, …, h1 */
+/**
+All 64 squares in render order: a8, b8, …, h8, a7, …, h1
+*/
 const SQUARES: Square[] = RANKS.flatMap((rank) =>
   FILES.map((file) => `${file}${rank}` as Square),
 );
@@ -33,12 +35,9 @@ function squareCoords(
   const fileIndex = FILES.indexOf(file);
   const rankIndex = RANKS.indexOf(rank);
 
-  if (orientation === 'white') {
-    return { col: fileIndex + 1, row: rankIndex + 1 };
-  }
-
-  // Black orientation: flip both axes
-  return { col: 8 - fileIndex, row: 8 - rankIndex };
+  return orientation === 'white'
+    ? { col: fileIndex + 1, row: rankIndex + 1 }
+    : { col: 8 - fileIndex, row: 8 - rankIndex };
 }
 
 /**
@@ -103,25 +102,25 @@ function diffPositions(
 
   function findMatch(fromSquare: Square, fromPiece: Piece): void {
     const matchIndex = addedEntries.findIndex(([, toPiece], index) => {
-      if (!toPiece || usedAdded.has(index)) {
-        return false;
-      }
-
-      return (
-        toPiece.color === fromPiece.color && toPiece.type === fromPiece.type
-      );
+      return !toPiece || usedAdded.has(index)
+        ? false
+        : toPiece.color === fromPiece.color && toPiece.type === fromPiece.type;
     });
 
-    if (matchIndex !== -1) {
-      const matched = addedEntries[matchIndex];
-
-      if (matched) {
-        const [toSquare] = matched;
-
-        deltas.push({ from: fromSquare, piece: fromPiece, to: toSquare });
-        usedAdded.add(matchIndex);
-      }
+    if (matchIndex === -1) {
+      return;
     }
+
+    const matched = addedEntries[matchIndex];
+
+    if (!matched) {
+      return;
+    }
+
+    const [toSquare] = matched;
+
+    deltas.push({ from: fromSquare, piece: fromPiece, to: toSquare });
+    usedAdded.add(matchIndex);
   }
 
   for (const [fromSquare, fromPiece] of removedEntries) {
@@ -154,11 +153,7 @@ function coordsToSquare(
   const file = FILES[fileIndex];
   const rank = RANKS[rankIndex];
 
-  if (!file || !rank) {
-    return undefined;
-  }
-
-  return `${file}${rank}` as Square;
+  return !file || !rank ? undefined : (`${file}${rank}` as Square);
 }
 
 function getSquareFromPointer(

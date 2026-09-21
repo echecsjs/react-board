@@ -65,10 +65,12 @@ function AnnotationOverlay({
   const unique: Arrow[] = [];
   for (const arrow of arrows) {
     const key = `${arrow.from}-${arrow.to}-${arrow.kind}`;
-    if (!seen.has(key)) {
-      seen.add(key);
-      unique.push(arrow);
+    if (seen.has(key)) {
+      continue;
     }
+
+    seen.add(key);
+    unique.push(arrow);
   }
 
   const paths: React.ReactElement[] = [];
