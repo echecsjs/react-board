@@ -102,9 +102,12 @@ function diffPositions(
 
   function findMatch(fromSquare: Square, fromPiece: Piece): void {
     const matchIndex = addedEntries.findIndex(([, toPiece], index) => {
-      return !toPiece || usedAdded.has(index)
-        ? false
-        : toPiece.color === fromPiece.color && toPiece.type === fromPiece.type;
+      return (
+        toPiece !== undefined &&
+        !usedAdded.has(index) &&
+        toPiece.color === fromPiece.color &&
+        toPiece.type === fromPiece.type
+      );
     });
 
     if (matchIndex === -1) {
