@@ -34,10 +34,9 @@ function pointerEvent(
   } as unknown as React.PointerEvent;
 }
 
-function mouseEvent(overrides: Partial<MouseEvent> = {}): React.MouseEvent {
+function mouseEvent(): React.MouseEvent {
   return {
     preventDefault: vi.fn(),
-    ...overrides,
   } as unknown as React.MouseEvent;
 }
 
