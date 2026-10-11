@@ -5,7 +5,7 @@ import * as importing from 'eslint-plugin-import-x';
 import unicorn from 'eslint-plugin-unicorn';
 import * as typescript from 'typescript-eslint';
 
-export default typescript.config(
+const config = typescript.config(
   { ignores: ['.storybook/', 'tsdown.config.ts'] },
   eslint.configs.recommended,
   ...typescript.configs.strict,
@@ -14,8 +14,8 @@ export default typescript.config(
   importing.flatConfigs.typescript,
   unicorn.configs.recommended,
   /**
-   * Common
-   */
+  Common
+  */
   {
     languageOptions: {
       ecmaVersion: 'latest',
@@ -66,8 +66,8 @@ export default typescript.config(
     },
   },
   /**
-   * TypeScript
-   */
+  TypeScript
+  */
   {
     files: ['**/*.{mts,ts,tsx}'],
     languageOptions: {
@@ -114,8 +114,8 @@ export default typescript.config(
     },
   },
   /**
-   * Stories
-   */
+  Stories
+  */
   {
     files: ['**/__stories__/**/*.{ts,tsx}'],
     rules: {
@@ -126,8 +126,8 @@ export default typescript.config(
     },
   },
   /**
-   * Tests
-   */
+  Tests
+  */
   {
     files: [
       '**/__tests__/**/*.{ts,tsx}',
@@ -144,3 +144,5 @@ export default typescript.config(
   },
   prettier,
 );
+
+export default config;
