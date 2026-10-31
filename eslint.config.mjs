@@ -123,6 +123,7 @@ const config = typescript.config(
       'import-x/exports-last': 'off',
       'import-x/group-exports': 'off',
       'sort-keys': 'off',
+      'unicorn/consistent-boolean-name': 'off',
     },
   },
   /**
@@ -140,6 +141,7 @@ const config = typescript.config(
       '@typescript-eslint/no-non-null-assertion': 'off',
       'no-console': 'off',
       'sort-keys': 'off',
+      'unicorn/consistent-boolean-name': 'off',
     },
   },
   prettier,
