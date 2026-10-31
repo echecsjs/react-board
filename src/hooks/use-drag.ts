@@ -91,7 +91,7 @@ function useDrag({
     [legalMoves],
   );
 
-  const attemptMove = useCallback(
+  const didMove = useCallback(
     (from: Square, to: Square): boolean => {
       if (from === to || !isLegalTarget(from, to)) {
         return false;
@@ -220,7 +220,7 @@ function useDrag({
 
           // Try to move to clicked square if legal
           if (isLegalTarget(selectedSquare, downSquare)) {
-            attemptMove(selectedSquare, downSquare);
+            didMove(selectedSquare, downSquare);
             setSelectedSquare(undefined);
 
             return;
@@ -271,14 +271,14 @@ function useDrag({
             x: event.clientX,
             y: event.clientY,
           };
-          attemptMove(downSquare, toSquare);
+          didMove(downSquare, toSquare);
         }
 
         setSelectedSquare(undefined);
       }
     },
     [
-      attemptMove,
+      didMove,
       boardRef,
       interactive,
       isLegalTarget,
